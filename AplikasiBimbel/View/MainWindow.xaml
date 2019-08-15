@@ -1,0 +1,133 @@
+﻿<Window x:Class="AplikasiBimbel.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:AplikasiBimbel.Converters"
+        xmlns:local="clr-namespace:AplikasiBimbel.View"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        MinHeight="450"
+        MinWidth="800"
+        Height="450" 
+        Width="800">
+
+    <Window.Resources>
+        
+        <!--Converters-->
+        <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <!--Tab Menu-->
+            <RowDefinition Height="Auto"/>
+            <!--Content-->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" 
+                    Grid.Row="0">
+            
+        </StackPanel>
+        <DockPanel>
+            
+            <!--Login Button-->
+            <Button Width="100"
+                    Height="25"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right"
+                    Click="Button_Login_Click"
+                    Background="{Binding IsLoginView, 
+                                 Mode=OneWay,
+                                 Converter={StaticResource BooleanToBrushConverter},
+                                 ConverterParameter=White;LightGray,
+                                 FallbackValue=LightGray}"
+                    Visibility="{Binding IsLoggedIn,
+                                 Mode=OneWay,
+                                 Converter={StaticResource BooleanToVisibilityConverter},
+                                 ConverterParameter=Inverse,
+                                 FallbackValue=Visible}">
+
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Login"/>
+                    <TextBlock Text="Login"
+                               Margin="5,0,0,0"/>
+                </DockPanel>
+                
+            </Button>
+
+            <!--Logout Button-->
+            <Button Width="100"
+                    Height="25"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right"
+                    Click="Button_Logout_Click"
+                    Background="LightGray"
+                    Visibility="{Binding IsLoggedIn,
+                                 Mode=OneWay,
+                                 Converter={StaticResource BooleanToVisibilityConverter},
+                                 FallbackValue=Collapsed}">
+
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Logout"/>
+                    <TextBlock Text="Logout"
+                               Margin="5,0,0,0"/>
+                </DockPanel>
+
+            </Button>
+            <!--Dashboard Button-->
+            <Button Width="100"
+                    Height="25"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right"
+                    Click="Button_Dashboard_Click"
+                    Background="{Binding IsDashboardView, 
+                                 Mode=OneWay,
+                                 Converter={StaticResource BooleanToBrushConverter},
+                                 ConverterParameter=White;LightGray,
+                                 FallbackValue=LightGray}"
+                    Visibility="{Binding IsLoggedIn,
+                                 Mode=OneWay,
+                                 Converter={StaticResource BooleanToVisibilityConverter},
+                                 FallbackValue=Collapsed}">
+                
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Home"/>
+                    <TextBlock Text="Dashboard"
+                               Margin="5,0,0,0"/>
+                    
+                </DockPanel>
+            </Button>
+
+            <!--Settings Button-->
+            <Button
+                    Width="100"
+                    Height="25"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right"
+                    Click="Button_Settings_Click"
+                    Background="{Binding IsSettingsView, 
+                                 Mode=OneWay,
+                                 Converter={StaticResource BooleanToBrushConverter},
+                                 ConverterParameter=White;LightGray,
+                                 FallbackValue=LightGray}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Settings"/>
+                    <TextBlock Text="Settings"
+                               Margin="5,0,0,0"/>
+                </DockPanel>
+            </Button>
+
+            <Border Background="{StaticResource Accent_Gray-600}"/>
+
+        </DockPanel>
+
+        <!--Content Media-->
+        <ContentControl Grid.Row="1"
+                        Content="{Binding CurrentView}"/>
+
+    </Grid>
+
+</Window>

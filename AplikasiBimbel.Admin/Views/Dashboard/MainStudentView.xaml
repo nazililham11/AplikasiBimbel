@@ -1,0 +1,485 @@
+﻿<UserControl x:Class="AplikasiBimbel.Admin.Views.Dashboard.MainStudentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converter="clr-namespace:AplikasiBimbel.Converters;assembly=AplikasiBimbel"
+             xmlns:viewmodel="clr-namespace:AplikasiBimbel.Admin.Views.Dashboard"
+             xmlns:local="clr-namespace:AplikasiBimbel.Admin.Views.Dashboard"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <!--Converters-->
+        <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
+    <Grid Background="{StaticResource Accent_Gray-200}">
+        <Grid.RowDefinitions>
+            <!--Header-->
+            <RowDefinition Height="Auto"/>
+            <!--Body-->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <!--Student Selector-->
+            <ColumnDefinition Width="3*" MinWidth="250"/>
+            <!--Student Data-->
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Header-->
+        <Border Background="{StaticResource Accent_White}"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                BorderBrush="{StaticResource Accent_Gray-300}"
+                BorderThickness="0,0,0,1"
+                Padding="10,5"
+                Height="45">
+            
+            <DockPanel LastChildFill="False">
+                
+                <TextBlock Text="Students"
+                           DockPanel.Dock="Left"
+                           Foreground="{StaticResource Accent_Gray-700}"
+                           FontSize="{StaticResource FontSizeXLarge}"
+                           FontWeight="SemiBold"/>
+
+                <Button DockPanel.Dock="Right"
+                        VerticalAlignment="Center">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Add"
+                                                 VerticalAlignment="Center"/>
+                        <TextBlock Text="New Student"
+                                   Margin="5,0,0,0"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </Button>
+            </DockPanel>
+
+        </Border>
+
+        <!--Sidel Panel-->
+        <StackPanel Orientation="Vertical"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Background="{StaticResource Accent_White}"
+                    Margin="0,1,0,0">
+
+            <Border Padding="10"
+                    BorderBrush="{StaticResource Accent_Gray-300}"
+                    BorderThickness="0,0,0,1">
+                
+                <StackPanel Orientation="Vertical">
+
+                    <!--Search Box-->
+                    <Grid VerticalAlignment="Top"
+                          Grid.Row="0"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2">
+
+                        <TextBlock Text="Search"
+                                   VerticalAlignment="Center"
+                                   Opacity=".7"
+                                   FontStyle="Italic"
+                                   Margin="5,0"/>
+                        <TextBox Background="Transparent"
+                                 BorderBrush="{StaticResource Accent_Gray-300}"
+                                 VerticalAlignment="Center"/>
+
+                        <Button VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Padding="0"
+                                Width="20"
+                                Background="Transparent"
+                                BorderThickness="0">
+                            <materialDesign:PackIcon Kind="Search"
+                                                     Foreground="{StaticResource Accent_Black}"/>
+                        </Button>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Urutkan"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"/>
+
+                        <ComboBox DockPanel.Dock="Left"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    SelectedIndex="0"
+                                    Margin="0,5">
+                            <ComboBoxItem Content="ID"/>
+                            <ComboBoxItem Content="Nama"/>
+                            <ComboBoxItem Content="Nickname"/>
+                            <ComboBoxItem Content="Sekolah"/>
+                            <ComboBoxItem Content="Kelas"/>
+                            <ComboBoxItem Content="Status"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Tampilkan"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"/>
+
+                        <ComboBox DockPanel.Dock="Left"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    SelectedIndex="0"
+                                    Margin="0,5">
+
+                            <ComboBoxItem Content="Semua"/>
+                            <ComboBoxItem Content="Aktif"/>
+                            <ComboBoxItem Content="Tidak Aktif"/>
+                        </ComboBox>
+                    </Grid>
+
+                </StackPanel>
+
+            </Border>
+
+            <ItemsControl Padding="0"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          BorderThickness="0"
+                          VerticalContentAlignment="Top"  
+                          ScrollViewer.CanContentScroll="False"
+                          ItemsSource="{Binding StudentList}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Background="{StaticResource Accent_White}"
+                                BorderThickness="0,0,0,1"
+                                BorderBrush="{StaticResource Accent_Gray-300}"
+                                Padding="0"
+                                Margin="0"
+                                Height="Auto"
+                                Style="{x:Null}">
+
+                            <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                          AncestorType={x:Type Button}}, 
+                                          Path=ActualWidth}">
+
+                                <Grid.ColumnDefinitions>
+                                    <!--Status Indicator-->
+                                    <ColumnDefinition Width="5"/>
+                                    <!--Name-->
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        Background="{Binding IsActiveTeacher, 
+                                                     Mode=OneWay,
+                                                     FallbackValue=Tomato,
+                                                     Converter={StaticResource BooleanToBrushConverter},
+                                                     ConverterParameter={}Tomato;ForestGreen}"/>
+                                <Border Grid.Column="2"
+                                        Padding="10,5">
+
+                                    <StackPanel Orientation="Vertical">
+
+                                        <TextBlock Text="{Binding Student.Name}"
+                                                   FontSize="{StaticResource FontSizeRegular}"
+                                                   FontWeight="SemiBold"
+                                                   Margin="0,5,0,0"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Foreground="{StaticResource Accent_Black}"/>
+
+                                        <TextBlock FontSize="{StaticResource FontSizeSmall}"
+                                                   Margin="0,0,0,5"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Foreground="{StaticResource Accent_Black}"
+                                                   Opacity=".7">
+
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} - {1}">
+                                                    <Binding Path="Student.Student_ID"/>
+                                                    <Binding Path="Student.Grade"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+        </StackPanel>
+
+        <!--Body-->
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                BorderBrush="{StaticResource Accent_Gray-300}"
+                BorderThickness="1,0,0,0"
+                Background="{StaticResource Accent_White}"
+                Margin="1,1,0,0"
+                Padding="20,10"
+                HorizontalAlignment="Left">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <!--Label-->
+                        <ColumnDefinition Width="Auto"/>
+                        <!--Gap-->
+                        <ColumnDefinition Width="20"/>
+                        <!--FIeld-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <!--Photo-->
+                        <RowDefinition Height="99.667"/>
+                        <RowDefinition Height="30.333"/>
+                        <!--ID-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Name-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Nickname-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Phone Number-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Address-->
+                        <RowDefinition Height="Auto"/>
+                        <!--School-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Grade-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Status-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Date Added-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Gap-->
+                        <RowDefinition Height="*"/>
+                        <!--Buttons-->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Photo-->
+                    <TextBlock Text="Photo"
+                               Grid.Column="0"
+                               Grid.Row="0" Grid.RowSpan="2"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="2"
+                                Grid.Row="0"
+                                Margin="0,0,0,10" Grid.RowSpan="2">
+
+                        <Border BorderBrush="{StaticResource Accent_Gray-900}"
+                                Background="{StaticResource Accent_White}"
+                                BorderThickness="1"
+                                Width="100"
+                                Height="120"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"/>
+
+                        <StackPanel Orientation="Vertical">
+
+                            <Button Content="Change Photo.."
+                                    Grid.Column="2"
+                                    Grid.Row="0"
+                                    VerticalAlignment="Center"
+                                    Width="120"
+                                    Margin="10,5"
+                                    HorizontalContentAlignment="Left"
+                                    Padding="5,2"/>
+
+                            <Button Content="Delete Photo"
+                                    Grid.Column="2"
+                                    Grid.Row="1"
+                                    VerticalAlignment="Center"
+                                    Width="120"
+                                    Margin="10,5"
+                                    HorizontalContentAlignment="Left"
+                                    Padding="5,2"/>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+
+                    <!--Teacher ID-->
+                    <TextBlock Text="Student ID"
+                               Grid.Column="0"
+                               Grid.Row="2"
+                               Margin="0,10,0,9"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="2"
+                             Grid.Row="2"
+                             Margin="0,5"
+                             VerticalAlignment="Center"/>
+
+
+                    <!--Name-->
+                    <TextBlock Text="Name"
+                               Grid.Column="0"
+                               Grid.Row="3"
+                               Margin="0,10,0,9"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="2"
+                             Grid.Row="3"
+                             Margin="0,5"
+                             VerticalAlignment="Center"/>
+
+
+
+                    <!--Username-->
+                    <TextBlock Text="Nickname"
+                               Grid.Column="0"
+                               Grid.Row="4"
+                               Margin="0,10,0,9"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="2"
+                             Grid.Row="4"
+                             Margin="0,5"
+                             VerticalAlignment="Center"/>
+
+
+                    <!--Phone Number-->
+                    <TextBlock Text="Phone Number"
+                               Grid.Column="0"
+                               Grid.Row="5"
+                               Margin="0,10,0,9"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="2"
+                             Grid.Row="5"
+                             Margin="0,5"
+                             VerticalAlignment="Center"/>
+
+                    
+                    <!--Address-->
+                    <TextBlock Text="Address"
+                               Grid.Column="0"
+                               Grid.Row="7"
+                               Margin="0,5,0,0"
+                               VerticalAlignment="Top"/>
+
+                    <TextBox Grid.Column="2"
+                             Grid.Row="7"
+                             Margin="0,5"
+                             VerticalAlignment="Center"
+                             Height="50"/>
+
+
+                    <!--School-->
+                    <TextBlock Text="Phone Number"
+                               Grid.Column="0"
+                               Grid.Row="6"
+                               Margin="0,10,0,9"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="2"
+                             Grid.Row="6"
+                             Margin="0,5"
+                             VerticalAlignment="Center"/>
+
+                    
+                    <!--Grade-->
+                    <TextBlock Text="Grade"
+                               Grid.Column="0"
+                               Grid.Row="8"
+                               Margin="0,11"
+                               VerticalAlignment="Center"/>
+
+                    <ComboBox Grid.Column="2"
+                              Grid.Row="8"
+                              Margin="0,5"
+                              VerticalAlignment="Center"
+                              SelectedIndex="1">
+
+                        <ComboBoxItem Content="TK"/>
+                        <ComboBoxItem Content="1 - SD"/>
+                        <ComboBoxItem Content="2 - SD"/>
+                        <ComboBoxItem Content="3 - SD"/>
+                        <ComboBoxItem Content="4 - SD"/>
+                        <ComboBoxItem Content="5 - SD"/>
+                        <ComboBoxItem Content="6 - SD"/>
+                        <ComboBoxItem Content="7 - SMP"/>
+                        <ComboBoxItem Content="8 - SMP"/>
+                        <ComboBoxItem Content="9 - SMP"/>
+                        <ComboBoxItem Content="10 - SMA"/>
+                        <ComboBoxItem Content="11 - SMA"/>
+                        <ComboBoxItem Content="12 - SMA"/>
+                    </ComboBox>
+
+                    <!--Status-->
+                    <TextBlock Text="Status"
+                                    Grid.Column="0"
+                                    Grid.Row="9"
+                                    Margin="0,11"
+                                    VerticalAlignment="Center"/>
+
+                    <ComboBox Grid.Column="2"
+                                  Grid.Row="9"
+                                  Margin="0,5"
+                                  VerticalAlignment="Center"
+                                  SelectedIndex="1">
+
+                        <ComboBoxItem Content="Aktif"/>
+                        <ComboBoxItem Content="Tidak Aktif"/>
+                    </ComboBox>
+
+
+                    <!--Date Added-->
+                    <WrapPanel Orientation="Horizontal" 
+                                    Grid.Column="2"
+                                    Grid.Row="9"
+                                    Margin="0,5"
+                                    VerticalAlignment="Center">
+
+                        <TextBlock Text="Added By "
+                                       Foreground="{StaticResource Accent_White}"/>
+                        <TextBlock Text="Guru 0 (00000)"
+                                       Foreground="{StaticResource Accent_White}"/>
+                        <TextBlock Text=" On "
+                                       Foreground="{StaticResource Accent_White}"/>
+                        <TextBlock Text="27 November 2019"
+                                       Foreground="{StaticResource Accent_White}"/>
+                        <TextBlock Text=" And Active Until "
+                                       Foreground="{StaticResource Accent_White}"/>
+                        <TextBlock Text="27 November 2020"
+                                       Foreground="{StaticResource Accent_White}"/>
+                    </WrapPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                    Grid.Column="2"
+                                    Grid.Row="10" Grid.RowSpan="2">
+
+                        <Button Content="Save"
+                                    Padding="2"
+                                    Width="100"
+                                    Margin="0,0,5,0"/>
+
+                        <Button Content="Reset Password"
+                                    Padding="2"
+                                    Width="100"
+                                    Margin="5,0"/>
+
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

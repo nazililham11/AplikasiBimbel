@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplikasiBimbel", "AplikasiBimbel\AplikasiBimbel.csproj", "{29B49A48-925A-4E24-B976-DFAC2E57C046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplikasiBimbel.Admin", "AplikasiBimbel.Admin\AplikasiBimbel.Admin.csproj", "{CAAC0F6E-33E5-4C5B-95F4-3B954D8AE110}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29B49A48-925A-4E24-B976-DFAC2E57C046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B49A48-925A-4E24-B976-DFAC2E57C046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B49A48-925A-4E24-B976-DFAC2E57C046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B49A48-925A-4E24-B976-DFAC2E57C046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAAC0F6E-33E5-4C5B-95F4-3B954D8AE110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAAC0F6E-33E5-4C5B-95F4-3B954D8AE110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAAC0F6E-33E5-4C5B-95F4-3B954D8AE110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAAC0F6E-33E5-4C5B-95F4-3B954D8AE110}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {740DA128-6EEB-4A6C-B306-CB0731FD0452}
+	EndGlobalSection
+EndGlobal

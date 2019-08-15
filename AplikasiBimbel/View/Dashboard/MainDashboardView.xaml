@@ -1,0 +1,327 @@
+﻿<UserControl x:Class="AplikasiBimbel.View.Dashboard.MainDashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AplikasiBimbel.View.Dashboard"
+             xmlns:converter="clr-namespace:AplikasiBimbel.Converters"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        
+        <!--Converters-->
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converter:BooleanToTextConverter x:Key="BooleanToTextConverter"/>
+        <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
+        
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!--Tab Menu-->
+            <ColumnDefinition Width="Auto"/>
+            <!--Content-->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Menu-->
+        <DockPanel Grid.Column="0"
+                   Background="{StaticResource Accent_Gray-800}">
+
+            <!--Bottom Menu-->
+            <StackPanel x:Name="BottomMenu"
+                        DockPanel.Dock="Bottom"
+                        Orientation="Vertical"
+                        Grid.Column="0"
+                        Background="{StaticResource Accent_Gray-800}">
+
+                <!--Settings Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsMaterialView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="10"
+                        Height="Auto"
+                        ToolTip="Settings"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Material_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Settings"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text="Settings"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+
+                    </DockPanel>
+                </Button>
+
+                <!--Logout Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsReportView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="10"
+                        Height="Auto"
+                        ToolTip="Logout"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Report_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="LogoutVariant"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 RenderTransformOrigin=".5,.5"
+                                                 RenderTransform="-1 0 0 1 0 0"
+                                                 Margin="0,0,10,0">
+                        </materialDesign:PackIcon>
+
+                            <TextBlock Text="Logout"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+                    </DockPanel>
+
+                </Button>
+
+            </StackPanel>
+            
+            <!--Top Menu-->
+            <StackPanel x:Name="TabMenu"
+                        DockPanel.Dock="Top"
+                        Orientation="Vertical"
+                        Grid.Column="0"
+                        Background="{StaticResource Accent_Gray-800}">
+
+                <!--Manu-->
+                <Button BorderThickness="0,0,0,1"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="Transparent"
+                        Padding="5,10"
+                        Height="Auto"
+                        ToolTip="{Binding IsMenuCollapsed,
+                                  Mode=OneWay,
+                                  Converter={StaticResource BooleanToTextConverter},
+                                  ConverterParameter={}Show Menu;Hide Menu}"
+                        Click="Button_Menu_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Menu"
+                                                 Foreground="{StaticResource Accent_White}"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text=""
+                                   Foreground="{StaticResource Accent_White}"
+                                   FontSize="{StaticResource FontSizeSmall}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+
+                    </DockPanel>
+                </Button>
+
+                <!--Login Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsTeacherView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="10"
+                        Height="Auto"
+                        ToolTip="Login"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Teacher_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="LoginVariant"
+                                                 Foreground="{StaticResource Accent_White}"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text="Login"
+                                   Foreground="{StaticResource Accent_White}"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+
+                    </DockPanel>
+                </Button>
+                
+                <!--Teacher Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsTeacherView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="0"
+                        Height="Auto"
+                        ToolTip="Teachers"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Teacher_Click">
+                    <Grid>
+                        <DockPanel Margin="10">
+                            <materialDesign:PackIcon Kind="Teacher"
+                                                     Foreground="{StaticResource Accent_White}"
+                                                     VerticalAlignment="Center"
+                                                     Height="25"
+                                                     Width="25"
+                                                     Margin="0,0,10,0"/>
+
+                            <TextBlock Text="Teacher"
+                                       Foreground="{StaticResource Accent_White}"
+                                       FontSize="{StaticResource FontSizeRegular}"
+                                       VerticalAlignment="Center"
+                                       Width="80"
+                                       Visibility="{Binding IsMenuCollapsed,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource BooleanToVisibilityConverter},
+                                                    ConverterParameter=Inverse}"/>
+
+                        </DockPanel>
+                    </Grid>
+                </Button>
+                
+                <!--Student Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsStudentView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="10"
+                        Height="Auto"
+                        ToolTip="Student"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Student_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="School"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text="Student"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+
+                    </DockPanel>
+                </Button>
+
+                <!--Material Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsMaterialView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="10"
+                        Height="Auto"
+                        ToolTip="Material"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Material_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="FileDocumentBoxes"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text="Material"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+
+                    </DockPanel>
+                </Button>
+
+                <!--Report Tab-->
+                <Button BorderThickness="0"
+                        BorderBrush="{StaticResource Accent_Gray-600}"
+                        Background="{Binding IsReportView,
+                                     Mode=OneWay,
+                                     Converter={StaticResource BooleanToBrushConverter},
+                                     ConverterParameter=DodgerBlue;Transparent}"
+                        Padding="10"
+                        Height="Auto"
+                        ToolTip="Report"
+                        Foreground="{StaticResource Accent_White}"
+                        Click="Button_Report_Click">
+
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="FileDocumentBoxCheckOutline"
+                                                 VerticalAlignment="Center"
+                                                 Height="25"
+                                                 Width="25"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text="Report"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   VerticalAlignment="Center"
+                                   Width="80"
+                                   Visibility="{Binding IsMenuCollapsed,
+                                                Mode=OneWay,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=Inverse}"/>
+                    </DockPanel>
+
+                </Button>
+
+            </StackPanel>
+
+        </DockPanel>
+        
+        <Grid Grid.Column="1"
+              Background="{StaticResource Accent_White}">
+            
+            <!--Content Media-->
+            <ContentControl Grid.Row="1"
+                            Content="{Binding CurrentView}"/>
+
+        </Grid>
+    </Grid>
+</UserControl>

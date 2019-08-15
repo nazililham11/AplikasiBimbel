@@ -1,0 +1,168 @@
+﻿<Application x:Class="AplikasiBimbel.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AplikasiBimbel"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Startup="Application_Startup"
+             Exit="Application_Exit">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!--Materal Design Theme Resources-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <!--Font Size-->
+            <system:Double x:Key="FontSizeSmaller">10</system:Double>
+            <system:Double x:Key="FontSizeSmall">12</system:Double>
+            <system:Double x:Key="FontSizeRegular">14</system:Double>
+            <system:Double x:Key="FontSizeLarge">20</system:Double>
+            <system:Double x:Key="FontSizeXLarge">24</system:Double>
+            <system:Double x:Key="FontSizeXXLarge">30</system:Double>
+
+
+
+            <!--Color-->
+
+            <!--Primary Color-->
+            
+            <!--Primary 200-->
+            <Color x:Key="Primary200">#90caf9</Color>
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary200}"/>
+            
+            <!--Primary 200 Foreground-->
+            <Color x:Key="Primary200Foreground">#DD000000</Color>
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{StaticResource Primary200Foreground}"/>
+
+            
+            <!--Primary 500-->
+            <Color x:Key="Primary500">#2196f3</Color>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary500}"/>
+
+            <!--Primary 500 Foreground-->
+            <Color x:Key="Primary500Foreground">#FFFFFFFF</Color>
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{StaticResource Primary500Foreground}"/>
+
+            
+            <!--Primary 800-->
+            <Color x:Key="Primary800">#1565c0</Color>
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary800}"/>
+
+            <!--Primary 800 Foreground-->
+            <Color x:Key="Primary800Foreground">#DDFFFFFF</Color>
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary800Foreground}"/>
+
+
+            <!--Accent Color-->
+
+            <Color x:Key="Accent_DarkGray">#444444</Color>
+            <SolidColorBrush x:Key="AccentDarkGray" Color="{StaticResource Accent_DarkGray}"/>
+
+            <Color x:Key="Accent_Gray">#FF808080</Color>
+            <SolidColorBrush x:Key="AccentGray" Color="{StaticResource Accent_Gray}"/>
+
+            <Color x:Key="Accent_LightGray">#FFD3D3D3</Color>
+            <SolidColorBrush x:Key="AccentLightGray" Color="{StaticResource Accent_LightGray}"/>
+
+            <Color x:Key="Accent_WhiteSmoke">#FFF5F5F5</Color>
+            <SolidColorBrush x:Key="AccentWhiteSmoke" Color="{StaticResource Accent_WhiteSmoke}"/>
+
+            <!--<Color x:Key="Accent_Red">#FF1744</Color>
+            <SolidColorBrush x:Key="AccentRed" Color="{StaticResource Accent_Red}"/>
+
+            <Color x:Key="Accent_Green">#64DD17</Color>
+            <SolidColorBrush x:Key="AccentGreen" Color="{StaticResource Accent_Green}"/>
+
+            <Color x:Key="Accent_White">#FFFFFFFF</Color>
+            <SolidColorBrush x:Key="AccentWhite" Color="{StaticResource Accent_White}"/>-->
+
+            
+
+
+            <SolidColorBrush x:Key="PrimaryColorLight" Color="{StaticResource Primary200}"/>
+            <SolidColorBrush x:Key="PrimaryColorDark" Color="{StaticResource Primary800}"/>
+            <SolidColorBrush x:Key="PrimaryColor" Color="{StaticResource Primary500}"/>
+
+            <SolidColorBrush x:Key="PrimaryBackgroundLight" Color="{StaticResource Accent_WhiteSmoke}"/>
+            <SolidColorBrush x:Key="PrimaryBackgroundDark" Color="{StaticResource Accent_WhiteSmoke}"/>
+            <SolidColorBrush x:Key="PrimaryBackground" Color="{StaticResource Accent_WhiteSmoke}"/>
+
+            <SolidColorBrush x:Key="PrimaryForegroundLight" Color="{StaticResource Primary200Foreground}"/>
+            <SolidColorBrush x:Key="PrimaryForegroundDark" Color="{StaticResource Accent_DarkGray}"/>
+            <SolidColorBrush x:Key="PrimaryForeground" Color="{StaticResource Primary800Foreground}"/>
+
+
+
+            <!--Colors-->
+            <Color x:Key="AccentBlue">#007bff</Color>
+            <SolidColorBrush x:Key="Accent_Blue" Color="{StaticResource AccentBlue}"/>
+
+            <Color x:Key="AccentIndigo">#6610f2</Color>
+            <SolidColorBrush x:Key="Accent_Indigo" Color="{StaticResource AccentIndigo}"/>
+
+            <Color x:Key="AccentPurple">#6f42c1</Color>
+            <SolidColorBrush x:Key="Accent_Purple" Color="{StaticResource AccentPurple}"/>
+
+            <Color x:Key="AccentRed">#dc3545</Color>
+            <SolidColorBrush x:Key="Accent_Red" Color="{StaticResource AccentRed}"/>
+
+            <Color x:Key="AccentOrange">#fd7e14</Color>
+            <SolidColorBrush x:Key="Accent_Orange" Color="{StaticResource AccentOrange}"/>
+
+            <Color x:Key="AccentYellow">#ffc107</Color>
+            <SolidColorBrush x:Key="Accent_Yellow" Color="{StaticResource AccentYellow}"/>
+
+            <Color x:Key="AccentGreen">#28a745</Color>
+            <SolidColorBrush x:Key="Accent_Green" Color="{StaticResource AccentGreen}"/>
+
+            <Color x:Key="AccentTeal">#20c997</Color>
+            <SolidColorBrush x:Key="Accent_Teal" Color="{StaticResource AccentTeal}"/>
+
+            <Color x:Key="AccentCyan">#17a2b8</Color>
+            <SolidColorBrush x:Key="Accent_Cyan" Color="{StaticResource AccentCyan}"/>
+
+            
+
+
+            <!--Grays-->
+            <Color x:Key="AccentWhite">#fff</Color>
+            <SolidColorBrush x:Key="Accent_White" Color="{StaticResource AccentWhite}"/>
+
+            <Color x:Key="AccentGray-100">#f8f9fa</Color>
+            <SolidColorBrush x:Key="Accent_Gray-100" Color="{StaticResource AccentGray-100}"/>
+
+            <Color x:Key="AccentGray-200">#e9ecef</Color>
+            <SolidColorBrush x:Key="Accent_Gray-200" Color="{StaticResource AccentGray-200}"/>
+
+            <Color x:Key="AccentGray-300">#dee2e6</Color>
+            <SolidColorBrush x:Key="Accent_Gray-300" Color="{StaticResource AccentGray-300}"/>
+
+            <Color x:Key="AccentGray-400">#ced4da</Color>
+            <SolidColorBrush x:Key="Accent_Gray-400" Color="{StaticResource AccentGray-400}"/>
+
+            <Color x:Key="AccentGray-500">#adb5bd</Color>
+            <SolidColorBrush x:Key="Accent_Gray-500" Color="{StaticResource AccentGray-500}"/>
+
+            <Color x:Key="AccentGray-600">#868e96</Color>
+            <SolidColorBrush x:Key="Accent_Gray-600" Color="{StaticResource AccentGray-600}"/>
+
+            <Color x:Key="AccentGray-700">#495057</Color>
+            <SolidColorBrush x:Key="Accent_Gray-700" Color="{StaticResource AccentGray-700}"/>
+
+            <Color x:Key="AccentGray-800">#343a40</Color>
+            <SolidColorBrush x:Key="Accent_Gray-800" Color="{StaticResource AccentGray-800}"/>
+
+            <Color x:Key="AccentGray-900">#212529</Color>
+            <SolidColorBrush x:Key="Accent_Gray-900" Color="{StaticResource AccentGray-900}"/>
+
+            <Color x:Key="AccentBlack">#000</Color>
+            <SolidColorBrush x:Key="Accent_Black" Color="{StaticResource AccentBlack}"/>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

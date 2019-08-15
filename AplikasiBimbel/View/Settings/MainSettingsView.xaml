@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="AplikasiBimbel.View.Settings.MainSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AplikasiBimbel.View.Settings"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+
+    <Border Padding="10"
+            Background="WhiteSmoke">
+        
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <!--Settings Menu-->
+                <ColumnDefinition Width="Auto"/>
+                <!--Gap-->
+                <ColumnDefinition Width="10"/>
+                <!--Settings Content-->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Border BorderBrush="DodgerBlue"
+                    BorderThickness="3"
+                    MinWidth="100"
+                    Width="175"
+                    MaxWidth="200"
+                    Grid.Column="0">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--Header-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Body-->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Background="DodgerBlue"
+                            Padding="8,3">
+                        
+                        <TextBlock Text="Settings"
+                                   Foreground="White"/>
+                        
+                    </Border>
+                    <StackPanel>
+                        
+                    </StackPanel>
+                </Grid>
+                
+            </Border>
+            
+            <Border BorderBrush="DodgerBlue"
+                    BorderThickness="3" 
+                    Grid.Column="2">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--Header-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Body-->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Background="DodgerBlue"
+                            Padding="8,3">
+
+                        <TextBlock Text="Settings"
+                                   Foreground="White"/>
+
+                    </Border>
+                    <StackPanel>
+
+                    </StackPanel>
+                </Grid>
+
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
