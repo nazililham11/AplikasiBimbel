@@ -26,12 +26,12 @@ namespace AplikasiBimbel.Converters
 
 					if ((bool)values == true) { 
 						//Get First Parameter
-						if (parameters.Length > 0 && !string.IsNullOrEmpty(parameters[0])) 
+						if (parameters.Length > 0 && parameters[0] != null) 
 							return parameters[0];
 
 					} else {
 						//Get Second Parameter
-						if (parameters.Length > 1 && !string.IsNullOrEmpty(parameters[1]))
+						if (parameters.Length > 1 && parameters[1] != null)
 							return parameters[1];
 					}
 				}

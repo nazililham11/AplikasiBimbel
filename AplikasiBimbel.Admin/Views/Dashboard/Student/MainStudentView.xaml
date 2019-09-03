@@ -1,0 +1,459 @@
+﻿<UserControl
+    x:Class="AplikasiBimbel.Admin.Views.Dashboard.MainStudentView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:AplikasiBimbel.Converters;assembly=AplikasiBimbel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:AplikasiBimbel.Admin.Views.Dashboard"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:AplikasiBimbel.Admin.Views.Dashboard"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--  Converters  -->
+            <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter" />
+            <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converter:TextToVisibilityConverter x:Key="TextToVisibilityConverter" />
+        </ResourceDictionary>
+
+
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource PrimaryBackground}">
+        <Grid.RowDefinitions>
+            <!--  Header  -->
+            <RowDefinition Height="Auto" />
+            <!--  Body  -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <!--  Student Selector  -->
+            <ColumnDefinition Width="*" />
+            <!--  Student Data  -->
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Header  -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="50"
+            Background="{StaticResource PrimaryBackgroundLight}"
+            BorderBrush="{StaticResource PrimaryColor}"
+            BorderThickness="0,0,0,2">
+
+            <DockPanel>
+                <!--  TODO:New Student Button Not Working  -->
+                <!--  New Student  -->
+                <Button
+                    Margin="10,0"
+                    BorderThickness="0"
+                    DockPanel.Dock="Right"
+                    ToolTip="Add New Student">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <materialDesign:PackIcon VerticalAlignment="Center" Kind="Add" />
+
+                        <TextBlock Margin="5,0,0,0" Text="New Student" />
+                    </StackPanel>
+
+                </Button>
+                <!--  TODO:Import From Excel Button Not Working  -->
+                <!--  Import From Excel  -->
+                <Button
+                    Margin="10,0"
+                    BorderThickness="0"
+                    DockPanel.Dock="Right"
+                    ToolTip="Add New Student From Excel">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <materialDesign:PackIcon VerticalAlignment="Center" Kind="FileExcel" />
+
+                        <TextBlock Margin="5,0,0,0" Text="Import From Excel" />
+                    </StackPanel>
+
+                </Button>
+
+                <!--  Title  -->
+                <Border
+                    Margin="10,0"
+                    Padding="0,0,20,0"
+                    HorizontalAlignment="Left"
+                    BorderBrush="{StaticResource PrimaryColor}"
+                    BorderThickness="0,0,0,5">
+
+                    <TextBlock
+                        Margin="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Left"
+                        FontSize="{StaticResource FontSizeLarge}"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource PrimaryForegroundLight}"
+                        Text="Student" />
+
+                </Border>
+
+            </DockPanel>
+        </Border>
+
+        <!--  Side Panel  -->
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Background="{StaticResource Accent_Gray-300}"
+            BorderThickness="0">
+
+            <StackPanel Orientation="Vertical">
+
+                <!--  Filers  -->
+                <Border
+                    Padding="10"
+                    Background="{StaticResource PrimaryBackgroundLight}"
+                    BorderBrush="{StaticResource Accent_Gray-300}"
+                    BorderThickness="0,0,0,1">
+
+                    <StackPanel Orientation="Vertical">
+
+                        <!--  Filters  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <!--  Search Box  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  Selection Mode  -->
+                                <ColumnDefinition Width="Auto" />
+                                <!--  Sort  -->
+                                <ColumnDefinition Width="Auto" />
+                                <!--  Refresh  -->
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Search bar  -->
+                            <Grid Grid.Column="0">
+                                <!--  Paceholder  -->
+                                <TextBlock
+                                    Margin="5,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="{StaticResource FontSizeRegular}"
+                                    FontStyle="Italic"
+                                    Opacity=".7"
+                                    Text="Seach"
+                                    Visibility="{Binding ElementName=Textbox_Search, Path=Text, Converter={StaticResource TextToVisibilityConverter}}" />
+
+                                <!--  Search Box  -->
+                                <TextBox
+                                    x:Name="Textbox_Search"
+                                    Padding="2"
+                                    Background="Transparent"
+                                    Text="{Binding SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <!--  Search Button  -->
+                                <Button
+                                    Padding="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="{StaticResource Accent_Black}">
+
+                                    <materialDesign:PackIcon
+                                        Width="25"
+                                        Height="38"
+                                        VerticalAlignment="Center"
+                                        Kind="Search"
+                                        Opacity=".7" />
+
+                                </Button>
+                            </Grid>
+
+                            <!--  TODO: Selection Menu Not Working  -->
+                            <!--  Selection Mode Button  -->
+                            <Button
+                                Grid.Column="1"
+                                Width="38"
+                                Height="38"
+                                Margin="10,0,0,0"
+                                Padding="3"
+                                VerticalAlignment="Stretch"
+                                ToolTip="Selection Mode">
+                                <materialDesign:PackIcon
+                                    Width="25"
+                                    Height="25"
+                                    Kind="CheckboxMultipleMarked" />
+                            </Button>
+
+                            <!--  Sort Button  -->
+                            <materialDesign:PopupBox
+                                Grid.Column="2"
+                                Width="40"
+                                Height="40"
+                                Margin="10,0,0,0"
+                                Padding="0"
+                                Style="{StaticResource MaterialDesignPopupBox}"
+                                ToolTip="{Binding StudentListSortLabel, Mode=OneWay}">
+
+                                <materialDesign:PopupBox.ToggleContent>
+                                    <Button
+                                        Width="38"
+                                        Height="38"
+                                        Padding="3">
+
+                                        <materialDesign:PackIcon
+                                            Width="25"
+                                            Height="25"
+                                            Foreground="{StaticResource Accent_White}"
+                                            Kind="Sort"
+                                            Opacity=".8" />
+
+                                    </Button>
+                                </materialDesign:PopupBox.ToggleContent>
+
+                                <StackPanel>
+                                    <Button
+                                        Command="{Binding StudentSorting}"
+                                        CommandParameter="0"
+                                        Content="ID" />
+                                    <Button
+                                        Command="{Binding StudentSorting}"
+                                        CommandParameter="1"
+                                        Content="Name" />
+                                    <Button
+                                        Command="{Binding StudentSorting}"
+                                        CommandParameter="2"
+                                        Content="Nickname" />
+                                    <Button
+                                        Command="{Binding StudentSorting}"
+                                        CommandParameter="3"
+                                        Content="School" />
+                                    <Button
+                                        Command="{Binding StudentSorting}"
+                                        CommandParameter="4"
+                                        Content="Grade" />
+                                    <Button
+                                        Command="{Binding StudentSorting}"
+                                        CommandParameter="3"
+                                        Content="Status" />
+                                </StackPanel>
+
+                            </materialDesign:PopupBox>
+
+                            <!--  TODO: Refresh Button Not Working  -->
+                            <!--  Refresh  -->
+                            <Button
+                                Grid.Column="3"
+                                Width="38"
+                                Height="38"
+                                Margin="10,0,0,0"
+                                Padding="3"
+                                VerticalAlignment="Stretch"
+                                ToolTip="Refresh">
+                                <materialDesign:PackIcon
+                                    Width="25"
+                                    Height="25"
+                                    Kind="Refresh" />
+                            </Button>
+
+                        </Grid>
+
+                        <!--  2nd Filter  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <!--  Data Found Label  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  Shows  -->
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Data Found Label  -->
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                FontSize="{StaticResource FontSizeRegular}"
+                                Opacity=".7"
+                                Text="{Binding DataFoundLabel, Mode=OneWay, FallbackValue={}99 Students Data Found}" />
+
+                            <!--  TODO: Shows Menu not Working  -->
+
+                            <!--  Shows  -->
+                            <ComboBox
+                                Grid.Column="1"
+                                Width="80"
+                                HorizontalAlignment="Right"
+                                SelectedIndex="3"
+                                ToolTip="Show">
+
+                                <ComboBoxItem Content="Semua" />
+                                <Separator />
+                                <ComboBoxItem Content="Aktif" />
+                                <ComboBoxItem Content="Tidak Aktif" />
+                            </ComboBox>
+
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+
+                <!--  Content  -->
+                <ItemsControl
+                    Padding="0"
+                    VerticalContentAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    ItemsSource="{Binding Path=StudentList}"
+                    ScrollViewer.CanContentScroll="False">
+
+                    <!--  Student List  -->
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Height="60"
+                                Margin="0"
+                                Padding="0"
+                                Background="{Binding IsSelected, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;White, FallbackValue=White}"
+                                BorderBrush="{StaticResource Accent_Gray-300}"
+                                BorderThickness="0,0,0,1"
+                                Command="{Binding StudentSelectCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                CommandParameter="{Binding}"
+                                FocusVisualStyle="{x:Null}"
+                                Foreground="{Binding IsSelected, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}White;Black, FallbackValue=Black}"
+                                Style="{x:Null}">
+
+                                <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=ActualWidth}">
+
+                                    <Grid.ColumnDefinitions>
+                                        <!--  Status Indicator  -->
+                                        <ColumnDefinition Width="5" />
+                                        <!--  Name  -->
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  Active Indicator  -->
+                                    <Border Grid.Column="0" Background="{Binding IsActiveStudent, Mode=OneWay, FallbackValue=Tomato, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}ForestGreen;Tomato}" />
+
+                                    <Border Grid.Column="2" Padding="10,5">
+
+                                        <StackPanel Orientation="Vertical">
+
+                                            <!--  Name  -->
+                                            <TextBlock
+                                                Margin="0,5,0,0"
+                                                FontSize="{StaticResource FontSizeRegular}"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding Student.Name}"
+                                                TextTrimming="CharacterEllipsis" />
+
+                                            <!--  ID and Permission  -->
+                                            <TextBlock
+                                                Margin="0,0,0,5"
+                                                FontSize="{StaticResource FontSizeSmall}"
+                                                Opacity=".7"
+                                                TextTrimming="CharacterEllipsis">
+
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0:00000} - {1}">
+                                                        <Binding Path="Student.Student_ID" />
+                                                        <Binding Path="Student.Grade" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+
+                                            </TextBlock>
+
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </Border>
+
+
+        <!--  Body  -->
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Background="{StaticResource Accent_White}"
+            BorderBrush="{StaticResource Accent_Gray-900}"
+            BorderThickness="1">
+
+            <StackPanel Orientation="Vertical">
+
+                <!--  Second Tab  -->
+                <Grid Visibility="{Binding IsCurrentSessionHasSuperAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <!--  General  -->
+                        <ColumnDefinition Width="*" />
+                        <!--  Access  -->
+                        <ColumnDefinition Width="*" />
+                        <!--  Report  -->
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  General  -->
+                    <Button
+                        Grid.Column="0"
+                        Height="40"
+                        Background="{Binding IsGeneralView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=DodgerBlue;White}"
+                        BorderBrush="{Binding IsGeneralView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=LightGray;Transparent}"
+                        BorderThickness=".5"
+                        Command="{Binding ChangeTab}"
+                        CommandParameter="0"
+                        Foreground="{Binding IsGeneralView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=White;Black}">
+
+                        <TextBlock FontSize="{StaticResource FontSizeRegular}" Text="General" />
+
+                    </Button>
+
+                    <!--  Access  -->
+                    <Button
+                        Grid.Column="1"
+                        Height="40"
+                        Background="{Binding IsAccessView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=DodgerBlue;White}"
+                        BorderBrush="{Binding IsAccessView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=LightGray;Transparent}"
+                        BorderThickness=".5"
+                        Command="{Binding ChangeTab}"
+                        CommandParameter="1"
+                        Foreground="{Binding IsAccessView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=White;Black}">
+
+                        <TextBlock FontSize="{StaticResource FontSizeRegular}" Text="Access" />
+
+                    </Button>
+
+                    <!--  TODO: Student Report Tab has Empty  -->
+                    <!--  Report  -->
+                    <Button
+                        Grid.Column="2"
+                        Height="40"
+                        Background="{Binding IsReportView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=DodgerBlue;White}"
+                        BorderBrush="{Binding IsReportView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=LightGray;Transparent}"
+                        BorderThickness=".5"
+                        Command="{Binding ChangeTab}"
+                        CommandParameter="2"
+                        Foreground="{Binding IsReportView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=White;Black}">
+
+                        <TextBlock FontSize="{StaticResource FontSizeRegular}" Text="Report" />
+
+                    </Button>
+
+                </Grid>
+
+
+                <ContentControl Content="{Binding CurrentStudentPanelView}" />
+
+            </StackPanel>
+
+        </Border>
+
+
+    </Grid>
+</UserControl>

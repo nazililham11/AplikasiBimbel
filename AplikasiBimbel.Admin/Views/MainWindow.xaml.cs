@@ -2,8 +2,12 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
+using AplikasiBimbel.ViewModel;
 using AplikasiBimbel.Admin.Views.Dashboard;
 using AplikasiBimbel.Admin.Views.Settings;
+using AplikasiBimbel.Admin.ViewModel;
+using MaterialDesignThemes.Wpf;
 
 namespace AplikasiBimbel.Admin.Views
 {
@@ -26,7 +30,7 @@ namespace AplikasiBimbel.Admin.Views
         private bool _isMenuCollapsed;
 
         #endregion
-
+        
 
         #region Constructor
 
@@ -34,7 +38,6 @@ namespace AplikasiBimbel.Admin.Views
         {
             InitializeComponent();
 
-            //Set Data Context
             this.DataContext = this;
 
             //Reset All Views
@@ -42,6 +45,10 @@ namespace AplikasiBimbel.Admin.Views
 
             //Set Current View
             CurrentView = _loginView;
+
+            //Set Menu To Collapsed
+            IsMenuCollapsed = true;
+
         }
 
         #endregion
@@ -57,7 +64,11 @@ namespace AplikasiBimbel.Admin.Views
                 return _currentView;
             }
             set {
+                if (_currentView == value)
+                    return;
+
                 _currentView = value;
+
                 //Notify The Current View
                 OnPropertyChanged(nameof(CurrentView));
 
@@ -159,6 +170,8 @@ namespace AplikasiBimbel.Admin.Views
         #endregion
 
 
+
+
         #region Events
 
         private void Button_Menu_Click(object sender, RoutedEventArgs e)
@@ -212,12 +225,146 @@ namespace AplikasiBimbel.Admin.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName]string name = null)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion  
+
+    }
+    public class MenuItemViewModel : INotifyPropertyChanged
+    {
+
+
+        #region Private Member
+
+        private UserControl _view;
+        private PackIconKind _icon;
+        private string _title;
+        private bool _IsSelected;
+        private string _tooltip;
+
+        #endregion
+
+
+        #region Properties
+
+        public UserControl View {
+            get {
+                if (_view == null)
+                    _view = new UserControl();
+
+                return _view;
+            }
+            set {
+                _view = value;
+
+                OnPropertyChanged(nameof(View));
+            }
+        }
+
+        public PackIconKind Icon {
+            get { return _icon; }
+            set {
+                _icon = value;
+
+                OnPropertyChanged(nameof(Icon));
+            }
+        }
+
+        public string Title {
+            get {
+                if (_title == null)
+                    _title = string.Empty;
+
+                return _title;
+            }
+            set {
+                _title = value;
+
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        public bool IsSelected {
+            get { return _IsSelected; }
+            set {
+                _IsSelected = value;
+
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+        public string Tooltip {
+            get {
+                if (_tooltip == null)
+                    _tooltip = string.Empty;
+
+                return _tooltip;
+            }
+            set {
+                _tooltip = value;
+
+                OnPropertyChanged(nameof(Tooltip));
+            }
         }
 
         #endregion
-       
+
+
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
+
+    public class MainMenuDesignModel
+    {
+        #region Singleton
+
+        public static MainMenuDesignModel Instance => new MainMenuDesignModel();
+
+        #endregion
+
+
+        #region Constructor
+
+        public MainMenuDesignModel()
+        {
+            MainMenus = new List<MenuItemViewModel>()
+            {
+                new MenuItemViewModel
+                {
+                    Title = "Manage Database",
+                    Icon = PackIconKind.Database,
+                    IsSelected = false,
+                    View = new DatabaseSettingsView()
+                },
+                new MenuItemViewModel
+                {
+                    Title = "Manage Connection",
+                    Icon = PackIconKind.LanConnect,
+                    IsSelected = false,
+                    View = new ConnectionSettings()
+                }
+            };
+        }
+
+        #endregion
+
+
+        #region Properties
+
+        public List<MenuItemViewModel> MainMenus { get; set; }
+
+        #endregion
+    }
+
 }

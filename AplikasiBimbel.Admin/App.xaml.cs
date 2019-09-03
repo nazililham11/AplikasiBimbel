@@ -29,17 +29,21 @@ namespace AplikasiBimbel.Admin
         //DEBUG
         //Admin Account
         public static TeacherModel admin;
+        public static string ConnectionString;
+
+        public static ConnectionModel Connection;
 
         #endregion
 
 
-        #region Events
-
-        private void Application_Startup(object sender, StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
+            ReadConnectionSettings();
 
             ApplicationWindow = new MainWindow();
-            
+
             //Show Main Window
             ApplicationWindow.Show();
 
@@ -62,19 +66,31 @@ namespace AplikasiBimbel.Admin
             //Force Auto Admin Login
             //ForceAdminLogin();
 
+
         }
-
-
-        //Save Settings When Application Exit
-        private void Application_Exit(object sender, ExitEventArgs e)
+ 
+        protected override void OnExit(ExitEventArgs e)
         {
+            //Save Settings When Application Exit
             Settings.Default.Save();
         }
 
-        #endregion
-
 
         #region Method
+        private void ReadConnectionSettings()
+        {
+            //Read Connection
+            Connection = new ConnectionModel()
+            {
+                DatabaseHost = Settings.Default.DatabaseHost,
+                DatabaseName = Settings.Default.DatabaseName,
+                DatabaseUsername = Settings.Default.DatabaseUsername,
+                DatabasePassword = Settings.Default.DatabasePassword,
+                DatabasePort = Settings.Default.DatabasePort
+            };
+            ConnectionString = Settings.Default.ConnectionString;
+
+        }
 
         private void ForceAdminLogin()
         {

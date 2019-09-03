@@ -1,0 +1,305 @@
+﻿<UserControl x:Class="AplikasiBimbel.Admin.Views.Dashboard.MainReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AplikasiBimbel.Admin.Views.Dashboard"
+             xmlns:converter="clr-namespace:AplikasiBimbel.Converters;assembly=AplikasiBimbel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!--Converters-->
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converter:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
+
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource PrimaryBackground}">
+        <Grid.RowDefinitions>
+            <!--Filter-->
+            <RowDefinition Height="Auto"/>
+            <!--Table-->
+            <RowDefinition Height="*"/>
+            <!--Buttons-->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Filters Panel-->
+        <DockPanel Grid.Row="0"
+                   LastChildFill="False">
+            
+            <!--Label-->
+            <TextBlock Text="Time"
+                       DockPanel.Dock="Left"
+                       Margin="10,5"
+                       VerticalAlignment="Center"/>
+            <!--Time-->
+            <ComboBox x:Name="Combobox_TimeFilter"
+                      Width="130"
+                      DockPanel.Dock="Left"
+                      VerticalAlignment="Center"
+                      ToolTip="Filter By Time"
+                      SelectedIndex="3">
+
+                <ComboBoxItem Content="Today"/>
+                <ComboBoxItem Content="Past Week"/>
+                <ComboBoxItem Content="Past Month"/>
+                <ComboBoxItem Content="All"/>
+                <ComboBoxItem BorderBrush="LightGray" 
+                              BorderThickness="0,1,0,0" 
+                              Content="Custom Range.."/>
+
+            </ComboBox>
+            
+            <!--Custom Date Format-->
+            <StackPanel Orientation="Horizontal"
+                        Visibility="{Binding Items[4].IsSelected, 
+                                     Converter={StaticResource BooleanToVisibilityConverter}, 
+                                     ElementName=Combobox_TimeFilter}">
+                <!--Date Start-->
+                <Grid Margin="10,0">
+
+                    <TextBlock Text="From"
+                               Foreground="Gray"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding ElementName=DatePicker_DateStartFilter, 
+                                            Path=Text, 
+                                            Converter={StaticResource TextToVisibilityConverter}}"/>
+                    <DatePicker x:Name="DatePicker_DateStartFilter"
+                                Width="100"
+                                VerticalAlignment="Center"/>
+
+                </Grid>
+
+                <TextBlock Text="-"
+                           VerticalAlignment="Center"/>
+
+                <!--Date End-->
+                <Grid Margin="10,0">
+
+                    <TextBlock Text="To"
+                               Foreground="Gray"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding ElementName=DatePicker_DateEndFilter, 
+                                            Path=Text, 
+                                            Converter={StaticResource TextToVisibilityConverter}}"/>
+                    <DatePicker x:Name="DatePicker_DateEndFilter"
+                                Width="100"
+                                VerticalAlignment="Center"/>
+
+                </Grid>
+            </StackPanel>
+
+
+            <ComboBox x:Name="Combobox_StudentIDFilter"
+                      DockPanel.Dock="Left"
+                      Margin="10,5"
+                      ToolTip="Filter By Student"
+                      Width="180"
+                      VerticalAlignment="Center"/>
+
+            <ComboBox x:Name="Combobox_PackageIDFilter"
+                      DockPanel.Dock="Left"
+                      Margin="10,5"
+                      ToolTip="Filter By Package"
+                      Width="180"
+                      VerticalAlignment="Center"/>
+
+            <Button x:Name="Button_Filter"
+                    Content="Filter"
+                    DockPanel.Dock="Right"
+                    Width="100"
+                    Margin="10"
+                    ToolTip="Filter With Current Settings"
+                    Click="Button_Filter_Click"/>
+
+        </DockPanel>
+
+        <Border BorderBrush="{StaticResource PrimaryColor}"
+                BorderThickness="1"
+                Grid.Row="1"
+                Margin="10,10,10,0">
+
+            <Grid>
+                <TextBlock Text="No Record Found"
+                           FontSize="15"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,60"
+                           Panel.ZIndex="1"
+                           Foreground="Gray"
+                           Visibility="{Binding Items.IsEmpty, 
+                                        ElementName=DataGrid_Report,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <DataGrid x:Name="DataGrid_Report"
+                          Background="Transparent"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False" 
+                          FontSize="13" 
+                          ItemsSource="{Binding}"
+                          Padding="0"
+                          Panel.ZIndex="0">
+
+                    <DataGrid.Resources>
+
+                        <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
+                                     MaxHeight="500"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        </ContextMenu>
+
+                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+                               TargetType="{x:Type DataGridColumnHeader}">
+
+                            <Setter Property="ContextMenu"
+                                    Value="{StaticResource DataGridColumnHeaderContextMenu}"/>
+
+                        </Style>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Report ID" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Report.Report_ID}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Student ID" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.Student_ID}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Student Name" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.Name}" 
+                                            Width="150"/>
+
+                        <DataGridTextColumn Header="Student Nickname" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.Nickname}" 
+                                            Width="120"/>
+
+                        <DataGridTextColumn Header="Student Program" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.Program}" 
+                                            Width="150"/>
+
+                        <DataGridTextColumn Header="Student School" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.School}" 
+                                            Width="120"/>
+
+                        <DataGridTextColumn Header="Student Grade" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.Grade}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Student Status" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Student.Status}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Package_ID" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.Package_ID}"
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Package Name" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.Package}"
+                                            Width="100"/>
+
+                        <DataGridTextColumn Header="Package Level" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.Level}"
+                                            Width="100"/>
+
+                        <DataGridTextColumn Header="Package Course" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.Course}"
+                                            Width="100"/>
+
+                        <DataGridTextColumn Header="Package Descriptione" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.Description}"
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Package Time" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.Time, StringFormat={}{0} Menit}"
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="KKM" 
+                                            IsReadOnly="True" 
+                                            Binding="{Binding Path=Package.MinimumScore}"
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="StartTime" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Report.StartTime, 
+                                                      Mode=OneWay, 
+                                                      StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="FinishTime" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Report.FinishTime, 
+                                                      Mode=OneWay, 
+                                                      StringFormat='dd/MM/yyyy HH:mm:ss'}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Time Spent" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=TimeSpent}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Status" 
+                                            IsReadOnly="True"  
+                                            Binding="{Binding Path=Report.Status}" 
+                                            Width="Auto"/>
+
+                        <DataGridTextColumn Header="Score" 
+                                            IsReadOnly="True"  
+                                            Width="Auto">
+
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding StringFormat="{}{0:#.##} ({1})">
+                                    <Binding Path="Report.Score"/>
+                                    <Binding Path="ScoreGrade"/>
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+
+                                    <Setter Property="Foreground" 
+                                            Value="{Binding Path=Score_Foreground}"/>
+
+                                </Style>
+
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!--Buttons-->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" >
+
+            <Button x:Name="Button_Hasil" 
+                    Content="Lihat Hasil" 
+                    FontSize="15" 
+                    Width="100" 
+                    Margin="10" 
+                    Click="Button_Hasil_Click"/>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

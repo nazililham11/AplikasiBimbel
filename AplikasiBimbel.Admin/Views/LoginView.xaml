@@ -4,13 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:AplikasiBimbel.Converters;assembly=AplikasiBimbel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:AplikasiBimbel.Admin.Views"
              Loaded="LoginView_Loaded"
              mc:Ignorable="d" 
-             MinHeight="180" 
-             MaxHeight="250"
-             Width="420"
-             Height="Auto">
+             Height="300"
+             Width="450">
 
     <UserControl.Resources>
         <!--Converters-->
@@ -18,127 +17,156 @@
         <converter:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
 
     </UserControl.Resources>
-    
+               
+        
     <Border Background="{StaticResource Accent_Gray-100}"
             BorderBrush="{StaticResource PrimaryColor}"
             BorderThickness="3"
-            Padding="10"
-            Height="Auto">
-
+            CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect Opacity=".5"
+                              BlurRadius="15"
+                              ShadowDepth="5"/>
+        </Border.Effect>
+        
         <Grid Height="Auto">
 
             <Grid.RowDefinitions>
                 <!--Header-->
-                <RowDefinition Height="Auto"/>
-                <!--Username-->
-                <RowDefinition Height="Auto"/>
-                <!--Username Error Message-->
-                <RowDefinition Height="Auto"/>
-                <!--Gap-->
-                <RowDefinition Height="10"/>
-                <!--Password-->
-                <RowDefinition Height="Auto"/>
-                <!--Password Error Message-->
-                <RowDefinition Height="Auto"/>
-                <!--Buttons-->
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <!--Field Label-->
-                <ColumnDefinition Width="Auto"/>
-                <!--Gap-->
-                <ColumnDefinition Width="10"/>
-                <!--Field-->
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <!--Header-->
-            <TextBlock Text="Login Admin"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        FontSize="{StaticResource FontSizeLarge}"
-                        HorizontalAlignment="Center"
-                        Margin="10"/>
+            <Border Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Background="{StaticResource PrimaryColor}">
+                
+                <!--Header-->
+                <TextBlock Text="LOGIN ADMIN"
+                            FontSize="{StaticResource FontSizeXLarge}"
+                            Foreground="{StaticResource PrimaryHueMidForegroundBrush}"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="10"
+                            />
+            </Border>
 
-            <!--Username Label-->
-            <TextBlock Text="Username"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="{StaticResource FontSizeRegular}"/>
-            
-            <!--Username Field-->
-            <TextBox x:Name="TextBox_Username"
-                        FontSize="{StaticResource FontSizeRegular}"
-                        KeyDown="Input_KeyDown"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Padding="2"/>
+            <Border Grid.Row="1"
+                    Padding="20"
+                    VerticalAlignment="Top">
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--Username-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Username Error Message-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Gap-->
+                        <RowDefinition Height="20"/>
+                        <!--Password-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Password Error Message-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Buttons-->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <!--Field Label-->
+                        <ColumnDefinition Width="1*"/>
+                        <!--Gap-->
+                        <ColumnDefinition Width="20"/>
+                        <!--Field-->
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!--Username Error Message-->
-            <TextBlock Text="{Binding UsernameError,
-                                FallbackValue={}Username Error}" 
-                        Visibility="{Binding UsernameError,
-                                    FallbackValue=Collapsed,
-                                    Converter={StaticResource TextToVisibilityConverter},
-                                    ConverterParameter=Inverse}" 
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        FontSize="{StaticResource FontSizeRegular}"
-                        Foreground="{StaticResource Accent_Red}"/>
-            
-            <!--Password Label-->
-            <TextBlock Text="Password"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="{StaticResource FontSizeRegular}"/>
-            
-            <!--Password Filed-->
-            <PasswordBox x:Name="PasswordBox_Password"
-                            FontSize="{StaticResource FontSizeRegular}"
-                            KeyDown="Input_KeyDown"
-                            Grid.Row="4"
-                            Grid.Column="2"
-                            Padding="2"/>
-            
-            <!--Password Error Message-->
-            <TextBlock Text="{Binding PasswordError,
-                                    FallbackValue={}Password Error,
-                                    UpdateSourceTrigger=PropertyChanged}" 
-                            Visibility="{Binding PasswordError,
-                                        FallbackValue=Collapsed,
-                                        Converter={StaticResource TextToVisibilityConverter},
-                                        ConverterParameter=Inverse}" 
-                            Grid.Row="5"
-                            Grid.Column="2"
-                            FontSize="{StaticResource FontSizeRegular}"
-                            Foreground="{StaticResource Accent_Red}"/>
+                    <!--Username Label-->
+                    <TextBlock Text="Username"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                FontSize="{StaticResource FontSizeRegular}"/>
 
-            <!--Buttons-->
-            <DockPanel Grid.Row="6"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="2"
-                        LastChildFill="False"
-                        HorizontalAlignment="Right"
-                        Margin="0,10">
+                    <!--Username Field-->
+                    <TextBox x:Name="TextBox_Username"
+                                FontSize="{StaticResource FontSizeRegular}"
+                                KeyDown="Input_KeyDown"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Padding="2"/>
 
-                <!--Button Login-->
-                <Button Content="Login"
-                        FontSize="{StaticResource FontSizeRegular}"
-                        Width="100"
-                        Margin="10,0,0,0"
-                        Click="Button_Login_Click"/>
+                    <!--Username Error Message-->
+                    <TextBlock Text="{Binding UsernameError,
+                                        FallbackValue={}Username Error}" 
+                                Visibility="{Binding UsernameError,
+                                            FallbackValue=Collapsed,
+                                            Converter={StaticResource TextToVisibilityConverter},
+                                            ConverterParameter=Inverse}" 
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                FontSize="{StaticResource FontSizeRegular}"
+                                Foreground="{StaticResource Accent_Red}"/>
 
-                <!--Button Cancel-->
-                <Button Content="Cancel"
-                        FontSize="{StaticResource FontSizeRegular}"
-                        Width="100"
-                        Margin="10,0,0,0"
-                        Click="Button_Cancel_Click"/>
-            
-            </DockPanel>
+                    <!--Password Label-->
+                    <TextBlock Text="Password"
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                FontSize="{StaticResource FontSizeRegular}"/>
+
+                    <!--Password Filed-->
+                    <PasswordBox x:Name="PasswordBox_Password"
+                                    FontSize="{StaticResource FontSizeRegular}"
+                                    KeyDown="Input_KeyDown"
+                                    Grid.Row="3"
+                                    Grid.Column="2"
+                                    Padding="2"/>
+
+                    <!--Password Error Message-->
+                    <TextBlock Text="{Binding PasswordError,
+                                        FallbackValue={}Password Error,
+                                        UpdateSourceTrigger=PropertyChanged}" 
+                                Visibility="{Binding PasswordError,
+                                            FallbackValue=Collapsed,
+                                            Converter={StaticResource TextToVisibilityConverter},
+                                            ConverterParameter=Inverse}" 
+                                Grid.Row="4"
+                                Grid.Column="2"
+                                FontSize="{StaticResource FontSizeRegular}"
+                                Foreground="{StaticResource Accent_Red}"/>
+
+                    <!--Buttons-->
+                    <DockPanel Grid.Row="5"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="2"
+                                LastChildFill="False"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Margin="0,20">
+
+                        <!--Button Login-->
+                        <Button Content="Login"
+                                FontSize="{StaticResource FontSizeRegular}"
+                                Width="100"
+                                Margin="10"
+                                Click="Button_Login_Click"/>
+
+                        <!--Button Cancel-->
+                        <Button Content="Cancel"
+                                FontSize="{StaticResource FontSizeRegular}"
+                                Width="100"
+                                Margin="10"
+                                Click="Button_Cancel_Click"/>
+
+                    </DockPanel>
+                </Grid>
+            </Border>
+
         </Grid>
     </Border>
+      
 </UserControl>

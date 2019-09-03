@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="AplikasiBimbel.Admin.Views.Settings.DatabaseSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:AplikasiBimbel.Admin.Views.Settings"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <RoutedUICommand x:Key="RuiExecute" />
+    </UserControl.Resources>
+
+    <UserControl.CommandBindings>
+
+        <CommandBinding Command="{StaticResource RuiExecute}"
+                        Executed="Button_Execute_Click" />
+
+    </UserControl.CommandBindings>
+
+    <UserControl.InputBindings>
+
+        <KeyBinding Key="E"
+                    Modifiers="Ctrl"
+                    Command="{StaticResource RuiExecute}" />
+
+    </UserControl.InputBindings>
+
+
+    <Grid Background="{StaticResource PrimaryBackground}">
+
+        <Grid.RowDefinitions>
+
+            <!--Query Result Table-->
+            <RowDefinition Height="*"
+                           MinHeight="100" />
+
+            <!--Grid Spliter-->
+            <RowDefinition Height="Auto" />
+
+            <!--Query Box-->
+            <RowDefinition Height="Auto"
+                           MinHeight="120" />
+
+        </Grid.RowDefinitions>
+
+
+        <!--Result Table-->
+        <DataGrid x:Name="DataGrid_Result"
+                  Grid.Row="0"
+                  Margin="10,10,10,0"
+                  BorderBrush="{StaticResource PrimaryHueMidBrush}"
+                  BorderThickness="1"
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="True" />
+
+
+        <!--Grid Splitter-->
+        <GridSplitter Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      Grid.Row="1"
+                      Background="{StaticResource PrimaryBackground}"
+                      ResizeDirection="Rows"
+                      ResizeBehavior="PreviousAndNext"
+                      HorizontalAlignment="Stretch"
+                      Margin="10,2.5"
+                      Height="5" />
+
+        <!--Buttons-->
+        <DockPanel Grid.Row="2"
+                   Margin="10,0,10,10">
+
+            <StackPanel DockPanel.Dock="Right"
+                        Orientation="Vertical">
+
+                <!--Button Execute Query-->
+                <Button ToolTip="Execute Query"
+                        FontSize="{StaticResource FontSizeRegular}"
+                        Width="{Binding RelativeSource={RelativeSource self}, Path=Height}"
+                        Margin="10,0,0,10"
+                        Padding="0"
+                        Click="Button_Execute_Click">
+
+                    <materialDesign:PackIcon Kind="Play"
+                                             Width="25"
+                                             Height="25"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
+
+                </Button>
+
+                <!--Button Selected Query-->
+                <Button ToolTip="Execute Selected Query"
+                        FontSize="{StaticResource FontSizeRegular}"
+                        Width="{Binding RelativeSource={RelativeSource self}, Path=Height}"
+                        Margin="10,0,0,10"
+                        Padding="0"
+                        Click="Button_ExecuteSelected_Click">
+
+                    <materialDesign:PackIcon Kind="SkipNext"
+                                             Width="25"
+                                             Height="25"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
+
+                </Button>
+
+                <!--Button Clear-->
+                <Button ToolTip="Clear Query"
+                        FontSize="{StaticResource FontSizeRegular}"
+                        Width="{Binding RelativeSource={RelativeSource self}, Path=Height}"
+                        Margin="10,0,0,0"
+                        Padding="0"
+                        Click="Button_Clear_Click">
+
+                    <materialDesign:PackIcon Kind="Clear"
+                                             Width="25"
+                                             Height="25"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
+
+                </Button>
+
+            </StackPanel>
+
+
+            <!--TextBox Query-->
+            <TextBox x:Name="TextBox_Query"
+                     DockPanel.Dock="Left"
+                     Style="{x:Null}"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     FontFamily="Concolas"
+                     TextWrapping="Wrap"
+                     BorderBrush="{StaticResource PrimaryHueMidBrush}"
+                     FontSize="{StaticResource FontSizeRegular}"
+                     BorderThickness="1"
+                     Padding="5">
+                SELECT * FROM Student
+            </TextBox>
+
+        </DockPanel>
+
+
+
+
+    </Grid>
+</UserControl>

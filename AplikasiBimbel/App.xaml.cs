@@ -8,7 +8,6 @@ using System.Windows;
 using AplikasiBimbel.Controller;
 using AplikasiBimbel.Model;
 using AplikasiBimbel.Properties;
-using AplikasiBimbel.View;
 
 namespace AplikasiBimbel
 {
@@ -26,10 +25,10 @@ namespace AplikasiBimbel
         public static TeacherModel TeacherSession;
 
         //Main Application Window
-        public static MainWindow ApplicationWindow;
 
         //Controllers
         public static TeacherController TeacherController;
+
 
         #endregion
 
@@ -42,7 +41,6 @@ namespace AplikasiBimbel
             //Assigns
             Connection = new MySQL_Connection();
 
-            ApplicationWindow = new MainWindow();
 
             TeacherController = new TeacherController();
 
@@ -54,7 +52,6 @@ namespace AplikasiBimbel
             Connection.IsConnected = Connection.CheckDatabaseServer();
 
             //Show Main Window
-            ApplicationWindow.Show();
 
             ForceAdminLogin();
 
@@ -79,6 +76,7 @@ namespace AplikasiBimbel
             Connection.DatabaseName = Settings.Default.DatabaseName;
             Connection.DatabaseUsername = Settings.Default.DatabaseUsername;
             Connection.DatabasePassword = Settings.Default.DatabasePassword;
+
         }
 
         private void ForceAdminLogin()
@@ -96,7 +94,6 @@ namespace AplikasiBimbel
 
             TeacherSession = teacher;
 
-            App.ApplicationWindow.LoginCallback();
         }
         #endregion
 

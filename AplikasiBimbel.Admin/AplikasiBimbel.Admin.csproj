@@ -61,23 +61,64 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Control\Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\ApplicationPage.cs" />
+    <Compile Include="DataModel\StudentSort.cs" />
+    <Compile Include="DataModel\TeacherPermission.cs" />
+    <Compile Include="DataModel\TeacherSort.cs" />
+    <Compile Include="ViewModel\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\MainTab\MainTabDesignModel.cs" />
+    <Compile Include="ViewModel\MainTab\MainTabItemDesignModel.cs" />
+    <Compile Include="Control\MainTabItemControl.xaml.cs">
+      <DependentUpon>MainTabItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MainTab\MainTabItemViewModel.cs" />
+    <Compile Include="ViewModel\MainTab\MainTabViewModel.cs" />
+    <Compile Include="MainWindow_New.xaml.cs">
+      <DependentUpon>MainWindow_New.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="Views\Dashboard\CourseTreeViewItemViewModel.cs" />
+    <Compile Include="Views\Dashboard\LevelTreeViewItemViewModel.cs" />
     <Compile Include="Views\Dashboard\MainDashboardView.xaml.cs">
       <DependentUpon>MainDashboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dashboard\MainMaterialView.xaml.cs">
+    <Compile Include="Views\Dashboard\Material\MainMaterialView.xaml.cs">
       <DependentUpon>MainMaterialView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dashboard\MainReportView.xaml.cs">
+    <Compile Include="Views\Dashboard\Report\MainReportView.xaml.cs">
       <DependentUpon>MainReportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dashboard\MainStudentView.xaml.cs">
+    <Compile Include="Views\Dashboard\Student\MainStudentView.xaml.cs">
       <DependentUpon>MainStudentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dashboard\MainTeacherView.xaml.cs">
+    <Compile Include="Views\Dashboard\Student\StudentAccessView.xaml.cs">
+      <DependentUpon>StudentAccessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard\Student\StudentDataView.xaml.cs">
+      <DependentUpon>StudentDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard\Student\StudentListItemViewModel.cs" />
+    <Compile Include="Views\Dashboard\Teacher\MainTeacherView.xaml.cs">
       <DependentUpon>MainTeacherView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dashboard\StudentViewModel.cs" />
-    <Compile Include="Views\Dashboard\TeacherViewModel.cs" />
+    <Compile Include="Views\Dashboard\PackageTreeViewItemViewModel.cs" />
+    <Compile Include="Views\Dashboard\Report\ReportViewModel.cs" />
+    <Compile Include="Views\Dashboard\Student\StudentDataViewViewModel.cs" />
+    <Compile Include="Views\Dashboard\Teacher\TeacherDataView.xaml.cs">
+      <DependentUpon>TeacherDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard\Teacher\TeacherListItemViewModel.cs" />
+    <Compile Include="Views\Dashboard\Teacher\TeacherLogView.xaml.cs">
+      <DependentUpon>TeacherLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard\Teacher\TeacherViewDataViewModel.cs" />
+    <Compile Include="Views\Dashboard\TreeViewItemViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -87,6 +128,9 @@
     <Compile Include="Views\Settings\ConnectionSettings.xaml.cs">
       <DependentUpon>ConnectionSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\DatabaseSettingsView.xaml.cs">
+      <DependentUpon>DatabaseSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\MainSettingsView.xaml.cs">
       <DependentUpon>MainSettingsView.xaml</DependentUpon>
     </Compile>
@@ -94,25 +138,59 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\Settings\SettingMenuDesignModel.cs" />
+    <Compile Include="Views\Settings\SettingsMenuItemViewModel.cs" />
+    <Page Include="Control\MainTabItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow_New.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dashboard\MainDashboardView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dashboard\MainMaterialView.xaml">
+    <Page Include="Views\Dashboard\Material\MainMaterialView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dashboard\MainReportView.xaml">
+    <Page Include="Views\Dashboard\Material\TreeViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard\Report\MainReportView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dashboard\MainStudentView.xaml">
+    <Page Include="Views\Dashboard\Student\MainStudentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dashboard\MainTeacherView.xaml">
+    <Page Include="Views\Dashboard\Student\StudentAccessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard\Student\StudentDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard\Teacher\MainTeacherView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dashboard\Student\TreeViewCheckboxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard\Teacher\TeacherDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard\Teacher\TeacherLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +201,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Settings\ConnectionSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\DatabaseSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,13 +227,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Control\Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
@@ -165,7 +251,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Dashboard\Student\" />
+    <Folder Include="Page\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

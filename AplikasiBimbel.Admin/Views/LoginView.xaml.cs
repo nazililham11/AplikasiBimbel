@@ -24,7 +24,7 @@ namespace AplikasiBimbel.Admin.Views
     public partial class LoginView : UserControl, INotifyPropertyChanged
     {
 
-        #region Field
+        #region Private Member
 
         private string _usernameError;
         private string _passwordError;
@@ -41,10 +41,12 @@ namespace AplikasiBimbel.Admin.Views
                 OnPropertyChanged(nameof(UsernameError));
 
                 if (!string.IsNullOrEmpty(value))
+                {
                     TextBox_Username.Focus();
+                    TextBox_Username.SelectAll();
+                }
             }
         }
-
 
         public string PasswordError {
             get { return _passwordError; }
@@ -53,11 +55,15 @@ namespace AplikasiBimbel.Admin.Views
                 OnPropertyChanged(nameof(PasswordError));
 
                 if (!string.IsNullOrEmpty(value))
+                {
                     PasswordBox_Password.Focus();
+                    PasswordBox_Password.SelectAll();
+                }
             }
         }
 
         #endregion
+
 
         #region Constructor
 
