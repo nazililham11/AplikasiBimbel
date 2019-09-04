@@ -24,20 +24,21 @@ namespace AplikasiBimbel.Model
 
         public TeacherModel Entity(IDataReader reader)
         {
-            TeacherModel teacher = new TeacherModel();
+            TeacherModel teacher = new TeacherModel
+            {
+                Teacher_ID = Convert.ToInt32(GetValue(reader, nameof(Teacher_ID))),
+                Username = Convert.ToString(GetValue(reader, nameof(Username))),
+                Password = Convert.ToString(GetValue(reader, nameof(Password))),
+                Name = Convert.ToString(GetValue(reader, nameof(Name))),
+                Address = Convert.ToString(GetValue(reader, nameof(Address))),
+                PhoneNumber = Convert.ToString(GetValue(reader, nameof(PhoneNumber))),
+                Permission = Convert.ToString(GetValue(reader, nameof(Permission))),
+                Status = Convert.ToString(GetValue(reader, nameof(Status))),
+                DateIn = Convert.ToDateTime(GetValue(reader, nameof(DateIn))),
 
-            teacher.Teacher_ID = Convert.ToInt32(GetValue(reader, nameof(Teacher_ID)));
-            teacher.Username = Convert.ToString(GetValue(reader, nameof(Username)));
-            teacher.Password = Convert.ToString(GetValue(reader, nameof(Password)));
-            teacher.Name = Convert.ToString(GetValue(reader, nameof(Name)));
-            teacher.Address = Convert.ToString(GetValue(reader, nameof(Address)));
-            teacher.PhoneNumber = Convert.ToString(GetValue(reader, nameof(PhoneNumber)));
-            teacher.Permission = Convert.ToString(GetValue(reader, nameof(Permission)));
-            teacher.Status = Convert.ToString(GetValue(reader, nameof(Status)));
-            teacher.DateIn = Convert.ToDateTime(GetValue(reader, nameof(DateIn)));
-            
-            teacher.DateOut = Convert.ToDateTime(GetValue(reader, nameof(DateOut)));
-            
+                DateOut = Convert.ToDateTime(GetValue(reader, nameof(DateOut)))
+            };
+
             return teacher;
         }
 

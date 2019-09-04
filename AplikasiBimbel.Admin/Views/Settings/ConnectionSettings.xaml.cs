@@ -132,16 +132,16 @@ namespace AplikasiBimbel.Admin.Views.Settings
 
         private void TestConnection_Execute(object param)
         {
-            MSSQL_Connection_old connection = new MSSQL_Connection_old(CurrentConnection);
+        //    MSSQL_Connection_old connection = new MSSQL_Connection_old(CurrentConnection);
 
-            if (connection.CheckDatabaseServer(ConnectionString))
-            {
-                MessageBox.Show("Database Connected");
-            }
-            else
-            {
-                MessageBox.Show("Unable to Connect to Database");
-            }
+        //    if (connection.CheckDatabaseServer(ConnectionString))
+        //    {
+        //        MessageBox.Show("Database Connected");
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Unable to Connect to Database");
+        //    }
         }
 
         private void Save_Execute(object param)

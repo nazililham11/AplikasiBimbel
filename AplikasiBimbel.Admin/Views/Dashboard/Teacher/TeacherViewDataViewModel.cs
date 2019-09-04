@@ -223,6 +223,18 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
         }
 
+        public bool IsActiveTeacher {
+            get {
+                return Status == 0;
+            }
+            set {
+                if (value)
+                    Status = 0;
+                else
+                    Status = 1;
+            }
+        }
+
         public TeacherModel Teacher {
             get {
                 if (_mainModel == null)

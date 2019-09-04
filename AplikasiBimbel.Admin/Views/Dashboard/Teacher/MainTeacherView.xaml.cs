@@ -17,10 +17,10 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
     /// </summary>
     public partial class MainTeacherView : UserControl, INotifyPropertyChanged
     {
-        #region Field
+        #region Private Member
 
-        private TeacherDatabase teacherDatabase;
-        
+        private TeacherDatabaseHandle teacherDatabase;
+
         private List<TeacherListItemViewModel> _originalTeacherList;
         private List<TeacherListItemViewModel> _teacherList;
         private UserControl _currentTeacherPanelView;
@@ -41,11 +41,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             //Set Data Context
             this.DataContext = this;
 
-            teacherDatabase = new TeacherDatabase(App.ConnectionString);
-
-            //Read Teacher 
-            ReadTeacherList();
-
+            teacherDatabase = new TeacherDatabaseHandle();
 
 
         }
@@ -55,7 +51,8 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         #region Properties
 
-        private TeacherDataView TeacherDataView {
+
+        public TeacherDataView TeacherDataView {
             get {
                 if (_teacherDataView == null)
                     _teacherDataView = new TeacherDataView();
@@ -200,8 +197,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         private void ReadTeacherList()
         {
-            _originalTeacherList = new List<TeacherListItemViewModel>();
-            TeacherList = new List<TeacherListItemViewModel>();
+
 
             #region Debug
 
@@ -263,18 +259,22 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
             #endregion
 
-            List<TeacherModel> teacherList = teacherDatabase.ReadAll();
+            _originalTeacherList = new List<TeacherListItemViewModel>();
+            List<TeacherModel> teachers = teacherDatabase.ReadAll();
+            List<TeacherListItemViewModel> teacherList = new List<TeacherListItemViewModel>();
 
-            if (teacherList == null)
+            if (teachers == null)
                 return;
 
-            foreach (var item in teacherList)
+            foreach (var item in teachers)
             {
-                TeacherList.Add(new TeacherListItemViewModel(item));
+                teacherList.Add(new TeacherListItemViewModel(item));
                 _originalTeacherList.Add(new TeacherListItemViewModel(item));
             }
 
-            if (TeacherList.Count > 0)
+            TeacherList = teacherList;
+
+            if (teacherList.Count > 0)
                 SelectTeacher(TeacherList[0].Teacher.Teacher_ID);
         }
 
@@ -445,6 +445,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         private void TeacherView_Loaded(object sender, RoutedEventArgs e)
         {
+
             if (TeacherList.Count < 1)
                 //Read Taecher
                 ReadTeacherList();

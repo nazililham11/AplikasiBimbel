@@ -25,9 +25,7 @@ namespace AplikasiBimbel
         public static TeacherModel TeacherSession;
 
         //Main Application Window
-
-        //Controllers
-        public static TeacherController TeacherController;
+       
 
 
         #endregion
@@ -40,9 +38,6 @@ namespace AplikasiBimbel
 
             //Assigns
             Connection = new MySQL_Connection();
-
-
-            TeacherController = new TeacherController();
 
 
             //Read Saved Settings

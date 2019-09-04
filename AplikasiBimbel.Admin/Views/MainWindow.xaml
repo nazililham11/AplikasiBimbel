@@ -25,12 +25,12 @@
         <!-- Main Tab Button Style -->
         <Style x:Key="MainTabStyle"
                TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{StaticResource Accent_Gray-800}"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryHueMidForegroundBrush}"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColorLight}"/>
+            <Setter Property="Height" Value="60"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Padding" Value="0"/>
 
@@ -41,13 +41,6 @@
                         <Grid x:Name="container"
                               Background="{TemplateBinding Background}">
 
-                            <Grid x:Name="masking"
-                                  Width="Auto"
-                                  Height="Auto"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  Background="Transparent"/>
-
                             <ContentPresenter/>
 
                         </Grid>
@@ -55,37 +48,8 @@
                         <!-- Hover effect -->
                         <ControlTemplate.Triggers>
 
-                            <DataTrigger Binding="{Binding IsSelected}"
-                                         Value="True">
-
-                                <Setter TargetName="container" Property="Background" Value="{StaticResource Accent_Gray-700}"/>
-                            </DataTrigger>
-
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="masking"
-                                                        Storyboard.TargetProperty="Background.Color"
-                                                        To="Gray"
-                                                        Duration="0:0:0.3"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="masking"
-                                                        Storyboard.TargetProperty="Background.Color"
-                                                        To="Transparent"
-                                                        Duration="0:0:0.3"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-
-                                <Setter TargetName="container" Property="Background" Value="{StaticResource Accent_Gray-400}"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value=".8"/>
                             </Trigger>
 
                         </ControlTemplate.Triggers>
@@ -93,9 +57,10 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Width" Value="60"/>
         </Style>
     </Window.Resources>
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -106,296 +71,217 @@
         </Grid.ColumnDefinitions>
 
         <!-- Menu -->
-        <Grid Grid.Column="0"
-              Background="{StaticResource Accent_Gray-800}">
+        <Border Background="{StaticResource Accent_White}"
+                BorderBrush="{StaticResource Accent_Gray-300}"
+                BorderThickness="0,0,1,0">
 
-            <Grid.RowDefinitions>
-                <!-- [0] Menu -->
-                <RowDefinition Height="Auto"/>
-                <!-- [1] Teacher -->
-                <RowDefinition Height="Auto"/>
-                <!-- [2] Student -->
-                <RowDefinition Height="Auto"/>
-                <!-- [3] Material -->
-                <RowDefinition Height="Auto"/>
-                <!-- [4] Report -->
-                <RowDefinition Height="Auto"/>
-                <!-- [5] Login -->
-                <RowDefinition Height="Auto"/>
-                <!-- [6] Gap -->
-                <RowDefinition Height="*"/>
-                <!-- [7] Settings -->
-                <RowDefinition Height="Auto"/>
-                <!-- [8] Logout -->
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <Grid Grid.Column="0">
 
-            <!-- Menu Button -->
-            <Button Grid.Row="0"
-                    Click="Button_Menu_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToTextConverter}, ConverterParameter={}Show Menu;Hide Menu}"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}">
+                <Grid.RowDefinitions>
+                    <!-- [0] Icon -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [1] Teacher -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [2] Student -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [3] Material -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [4] Report -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [5] Login -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [6] Gap -->
+                    <RowDefinition Height="*"/>
+                    <!-- [7] Settings -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- [8] Logout -->
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <Grid Height="50">
+                <!-- Logo -->
+                <Border Grid.Row="0"
+                        Width="60"
+                        Height="60"
+                        BorderBrush="{StaticResource Accent_Gray-300}"
+                        BorderThickness="0,0,0,1">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
-
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
+                    <materialDesign:PackIcon Width="35"
+                                             Height="35"
+                                             HorizontalAlignment="Center"
                                              VerticalAlignment="Center"
-                                             Kind="Menu"/>
+                                             Foreground="Red"
+                                             Kind="EmoticonDevil"/>
+                </Border>
 
-                </Grid>
-            </Button>
+                <!-- Teacher Tab -->
+                <Button Grid.Row="1"
+                        Click="Button_Teacher_Click"
+                        Foreground="{Binding IsTeacherView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;LightSkyBlue, FallbackValue=DodgerBlue}"
+                        Style="{StaticResource MainTabStyle}"
+                        ToolTip="Teachers"
+                        Visibility="{Binding IsLoggedin, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-            <!-- Teacher Tab -->
-            <Button Grid.Row="1"
-                    Click="Button_Teacher_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="Teachers"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}"
-                    Visibility="{Binding IsLoggedin, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid Width="60"
+                          Height="60"
+                          Background="{Binding IsTeacherView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}WhiteSmoke;White, FallbackValue=WhiteSmoke}">
 
-                <Grid Height="50"
-                      Background="{Binding IsTeacherView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=Gray;Transparent}">
+                        <Border Width="3"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Background="DodgerBlue"
+                                BorderThickness="0"
+                                Visibility="{Binding IsTeacherView, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Kind="Teacher"/>
 
-                    <Border Grid.Column="0"
-                            Width="5"
-                            HorizontalAlignment="Left"
-                            Background="{Binding IsTeacherView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DeepSkyBlue;Transparent}"
-                            BorderThickness="0"/>
+                    </Grid>
+                </Button>
 
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Kind="Teacher"/>
+                <!-- Student Tab -->
+                <Button Grid.Row="2"
+                        Click="Button_Student_Click"
+                        Foreground="{Binding IsStudentView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;LightSkyBlue, FallbackValue=LightSkyBlue}"
+                        Style="{StaticResource MainTabStyle}"
+                        ToolTip="Students"
+                        Visibility="{Binding IsLoggedin, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                    <TextBlock Grid.Column="2"
-                               Width="80"
-                               Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Teacher"
-                               Visibility="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                    <Grid Width="60"
+                          Height="60"
+                          Background="{Binding IsStudentView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}WhiteSmoke;White}">
 
-                </Grid>
-            </Button>
+                        <Border Width="3"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Background="DodgerBlue"
+                                BorderThickness="0"
+                                Visibility="{Binding IsStudentView, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-            <!-- Student Tab -->
-            <Button Grid.Row="2"
-                    Click="Button_Student_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="Student"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}"
-                    Visibility="{Binding IsLoggedin, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <materialDesign:PackIcon Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Kind="School"/>
 
-                <Grid Height="50"
-                      Background="{Binding IsStudentView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=Gray;Transparent}">
+                    </Grid>
+                </Button>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Material Tab -->
+                <Button Grid.Row="3"
+                        Click="Button_Material_Click"
+                        Foreground="{Binding IsMaterialView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;LightSkyBlue, FallbackValue=LightSkyBlue}"
+                        Style="{StaticResource MainTabStyle}"
+                        ToolTip="Materials"
+                        Visibility="{Binding IsLoggedin, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                    <Border Grid.Column="0"
-                            Width="5"
-                            HorizontalAlignment="Left"
-                            Background="{Binding IsStudentView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DeepSkyBlue;Transparent}"
-                            BorderThickness="0"/>
+                    <Grid Width="60"
+                          Height="60"
+                          Background="{Binding IsMaterialView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}WhiteSmoke;White}">
 
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Kind="School"/>
+                        <Border Width="3"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Background="DodgerBlue"
+                                BorderThickness="0"
+                                Visibility="{Binding IsMaterialView, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-                    <TextBlock Grid.Column="2"
-                               Width="80"
-                               Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Student"
-                               Visibility="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                        <materialDesign:PackIcon Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Kind="FileCabinet"/>
 
-                </Grid>
-            </Button>
+                    </Grid>
+                </Button>
 
-            <!-- Material Tab -->
-            <Button Grid.Row="3"
-                    Click="Button_Material_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="Material"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}"
-                    Visibility="{Binding IsLoggedin, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <!-- Report Tab -->
+                <Button Grid.Row="4"
+                        Click="Button_Report_Click"
+                        Foreground="{Binding IsReportView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;LightSkyBlue, FallbackValue=LightSkyBlue}"
+                        Style="{StaticResource MainTabStyle}"
+                        ToolTip="Reports"
+                        Visibility="{Binding IsLoggedin, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                <Grid Height="50"
-                      Background="{Binding IsMaterialView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=Gray;Transparent}">
+                    <Grid Width="60"
+                          Height="60"
+                          Background="{Binding IsReportView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}WhiteSmoke;White}">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
+                        <Border Width="3"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Background="DodgerBlue"
+                                BorderThickness="0"
+                                Visibility="{Binding IsReportView, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-                    <Border Grid.Column="0"
-                            Width="5"
-                            HorizontalAlignment="Left"
-                            Background="{Binding IsMaterialView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DeepSkyBlue;Transparent}"
-                            BorderThickness="0"/>
+                        <materialDesign:PackIcon Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Kind="MarkerCheck"/>
 
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Kind="FileDocumentEdit"/>
+                    </Grid>
+                </Button>
 
-                    <TextBlock Grid.Column="2"
-                               Width="80"
-                               Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Material"
-                               Visibility="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                <!-- Login Tab -->
+                <Button Grid.Row="5"
+                        Click="Button_Login_Click"
+                        Foreground="{Binding IsLoginView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;LightSkyBlue, FallbackValue=LightSkyBlue}"
+                        Style="{StaticResource MainTabStyle}"
+                        ToolTip="Login"
+                        Visibility="{Binding IsLoggedin, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}">
 
-                </Grid>
-            </Button>
+                    <Grid Width="60"
+                          Height="60"
+                          Background="{Binding IsLoginView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}WhiteSmoke;White}">
 
-            <!-- Report Tab -->
-            <Button Grid.Row="4"
-                    Click="Button_Report_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="Report"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}"
-                    Visibility="{Binding IsLoggedin, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border Width="3"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Background="DodgerBlue"
+                                BorderThickness="0"
+                                Visibility="{Binding IsLoginView, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-                <Grid Height="50"
-                      Background="{Binding IsReportView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=Gray;Transparent}">
+                        <materialDesign:PackIcon Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Kind="LoginVariant"/>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
+                    </Grid>
+                </Button>
 
-                    <Border Grid.Column="0"
-                            Width="5"
-                            HorizontalAlignment="Left"
-                            Background="{Binding IsReportView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DeepSkyBlue;Transparent}"
-                            BorderThickness="0"/>
+                <!-- Settings Tab -->
+                <Button Grid.Row="7"
+                        Click="Button_Settings_Click"
+                        Foreground="{Binding IsSettingsView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DodgerBlue;LightSkyBlue, FallbackValue=LightSkyBlue}"
+                        Style="{StaticResource MainTabStyle}"
+                        ToolTip="Settings">
 
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Kind="FileDocumentBoxCheck"/>
+                    <Grid Width="60"
+                          Height="60"
+                          Background="{Binding IsSettingsView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}WhiteSmoke;White}">
 
-                    <TextBlock Grid.Column="2"
-                               Width="80"
-                               Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Report"
-                               Visibility="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                        <Border Width="3"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Background="DodgerBlue"
+                                BorderThickness="0"
+                                Visibility="{Binding IsSettingsView, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-                </Grid>
-            </Button>
+                        <materialDesign:PackIcon Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Kind="Settings"/>
 
-            <!-- Login Tab -->
-            <Button Grid.Row="5"
-                    Click="Button_Login_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="Login"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}"
-                    Visibility="{Binding IsLoggedin, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}">
-
-                <Grid Height="50"
-                      Background="{Binding IsLoginView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=Gray;Transparent}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border Grid.Column="0"
-                            Width="5"
-                            HorizontalAlignment="Left"
-                            Background="{Binding IsLoginView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DeepSkyBlue;Transparent}"
-                            BorderThickness="0"/>
-
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Kind="LoginVariant"/>
-
-                    <TextBlock Grid.Column="2"
-                               Width="80"
-                               Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Login"
-                               Visibility="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
-                </Grid>
-            </Button>
-
-            <!-- Settings Tab -->
-            <Button Grid.Row="7"
-                    Click="Button_Settings_Click"
-                    Style="{StaticResource MainTabStyle}"
-                    ToolTip="Settings"
-                    ToolTipService.IsEnabled="{Binding IsMenuCollapsed}">
-
-                <Grid Height="50"
-                      Background="{Binding IsSettingsView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=Gray;Transparent}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="10"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border Grid.Column="0"
-                            Width="5"
-                            HorizontalAlignment="Left"
-                            Background="{Binding IsSettingsView, Mode=OneWay, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}DeepSkyBlue;Transparent}"
-                            BorderThickness="0"/>
-
-                    <materialDesign:PackIcon Grid.Column="1"
-                                             Width="25"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Kind="Settings"/>
-
-                    <TextBlock Grid.Column="2"
-                               Width="80"
-                               Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Settings"
-                               Visibility="{Binding IsMenuCollapsed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
-                </Grid>
-            </Button>
+                    </Grid>
+                </Button>
 
 
-            <!--<ItemsControl d:DataContext="{x:Static local:MainMenuDesignModel.Instance}"
+                <!--<ItemsControl d:DataContext="{x:Static local:MainMenuDesignModel.Instance}"
                           ItemsSource="{Binding MainMenus}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -441,7 +327,9 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>-->
 
-        </Grid>
+            </Grid>
+
+        </Border>
 
         <Grid Grid.Column="1"
               Background="{StaticResource Accent_White}">

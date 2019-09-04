@@ -33,13 +33,12 @@ END
 
 
 GO
-CREATE PROCEDURE sp_GetDetails @student_id INT AS
+CREATE PROCEDURE sp_GetStudentDetails @student_id INT AS
 BEGIN 
 	SELECT Name, Nickname, Password, Program, School, Grade, Status, IsPasswordEnabled
 	FROM Students 
 	WHERE Student_ID = @student_id
 END
-
 
 
 GO
@@ -146,6 +145,17 @@ END
 --Example
 EXEC sp_GetTeacherDetails @teacher_id = '4'
 
+
+--Get Teacher Details By Username
+GO
+CREATE PROCEDURE sp_GetTeacherDetailsByUsername @username VARCHAR(30) AS
+BEGIN 
+	SELECT Name, Username, Password, Address, PhoneNumber, Permission, Status, DateIn, DateOut
+	FROM Teachers 
+	WHERE Username = @username
+END
+--Example
+EXEC sp_GetTeacherDetailsByUsername @username = 'admin'
 
 --Generate Teacher ID
 GO

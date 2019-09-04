@@ -13,7 +13,7 @@ namespace AplikasiBimbel.Controller
 
         private readonly string _databaseName = "DatabaseBimbel";
         private readonly string _databaseDataSource = @"(localdb)\MSSQLLocalDB";
-        private string _connectionString;
+        private readonly string _connectionString;
 
         #endregion
 

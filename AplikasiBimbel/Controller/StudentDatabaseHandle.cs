@@ -1,33 +1,29 @@
 ﻿using AplikasiBimbel.Model;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace AplikasiBimbel.Controller
 {
-    public class TeacherDatabase
+    public class StudentDatabaseHandle
     {
 
         #region Query Command
 
-
-
         //Get All Teacher Data
         //Shows Teacher_ID, Username, Name,  Permission, Status
         //Stored Procedure Name: sp_ReadAllTeacher
-        public const string ReadAllTeacher = "sp_ReadAllTeacher";
+        public const string ReadAllTeacher = "sp_ReadAllStudent";
 
         //Get All Active Student
         //Shows Teacher_ID, Username, Name, Permission
         //Stored Procedure Name: sp_ReadActiveTeacher
-        public const string ReadActiveTeacher = "sp_ReadActiveTeacher";
+        public const string ReadActiveTeacher = "sp_ReadActiveStudent";
 
         //Get Teacher Details By ID
         //Shows Name, Username, Password, Address, PhoneNumber, Permission, Status, DateIn, DateOut
         //Stored Procedure Name: sp_GetTeacherDetails 
         //Parameters : @teacher_id
-        public const string GetTeacherDetails = "sp_GetTeacherDetails";
+        public const string GetTeacherDetails = "sp_GetStudentDetails";
 
         //Get Teacher Details By ID
         //Shows Name, Username, Password, Address, PhoneNumber, Permission, Status, DateIn, DateOut
@@ -57,7 +53,7 @@ namespace AplikasiBimbel.Controller
 
         //Column Names
         public readonly string[] columnNames = { "Teacher_ID", "Username", "Password", "Name", "Address", "PhoneNumberr", "Permission", "Status", "DateIn", "DateOUt" };
-        
+
         #endregion
 
 
@@ -70,12 +66,7 @@ namespace AplikasiBimbel.Controller
 
         #region Constructor
 
-        public TeacherDatabase()
-        {
-            connection = new MSSQL_Connection();
-        }
-
-        public TeacherDatabase(string connectionString)
+        public StudentDatabaseHandle()
         {
             connection = new MSSQL_Connection();
         }
@@ -98,7 +89,7 @@ namespace AplikasiBimbel.Controller
             //CheckConnection();
 
             List<TeacherModel> teacherlist = connection.ExecuteStoredProcedureQuery<TeacherModel>(ReadActiveTeacher, columnNames);
-            
+
             return teacherlist;
         }
 
@@ -106,7 +97,7 @@ namespace AplikasiBimbel.Controller
         {
             //CheckConnection();
 
-            SqlParameter[] param = 
+            SqlParameter[] param =
             {
                 new SqlParameter("@teacher_id", teacher_id)
             };
@@ -147,7 +138,7 @@ namespace AplikasiBimbel.Controller
                 return 0;
 
             int.TryParse(newId, out int id);
-           
+
             return id;
         }
 
@@ -169,7 +160,7 @@ namespace AplikasiBimbel.Controller
 
             if (result == null || result < 1)
                 return false;
-            
+
             return true;
         }
 
