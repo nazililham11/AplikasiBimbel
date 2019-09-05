@@ -104,7 +104,11 @@
     <Compile Include="Controller\IDatabaseEntity.cs" />
     <Compile Include="Controller\MSSQL_Connection.cs" />
     <Compile Include="Controller\StudentDatabaseHandle.cs" />
+    <Compile Include="Controller\TeacherController.cs" />
     <Compile Include="Controller\TeacherDatabaseHandle.cs" />
+    <Compile Include="Converters\BooleanNegationConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\VisibilityNegationConverter.cs" />
     <Compile Include="Model\ConnectionModel.cs" />
     <Compile Include="Converters\LengthToVisibilityConverter.cs" />
     <Compile Include="Model\CourseTreeViewItemModel.cs" />

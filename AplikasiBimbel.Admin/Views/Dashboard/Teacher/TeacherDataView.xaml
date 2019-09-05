@@ -17,7 +17,7 @@
 
     </UserControl.Resources>
 
-    <Border Padding="10"
+    <Border Padding="20"
             Background="{StaticResource Accent_White}">
 
         <ScrollViewer Focusable="False"
@@ -71,18 +71,7 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-                <TextBlock Grid.Row="2"
-                           Grid.Column="2"
-                           Margin="0,5"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource FontSizeRegular}"
-                           Text="{Binding CurrentTeacherData.Name, Mode=OneWay}"
-                           Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
-
+                         Text="{Binding CurrentTeacherData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Username -->
                 <TextBlock Grid.Row="3"
@@ -97,17 +86,7 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-                <TextBlock Grid.Row="3"
-                           Grid.Column="2"
-                           Margin="0,5"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource FontSizeRegular}"
-                           Text="{Binding CurrentTeacherData.Username, Mode=OneWay}"
-                           Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
+                         Text="{Binding CurrentTeacherData.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                 <!-- Phone Number -->
@@ -123,17 +102,9 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                         Text="{Binding CurrentTeacherData.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Grid.Row="4"
-                           Grid.Column="2"
-                           Margin="0,5"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource FontSizeRegular}"
-                           Text="{Binding CurrentTeacherData.PhoneNumber, Mode=OneWay}"
-                           Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
+             
 
                 <!-- Address -->
                 <TextBlock Grid.Row="5"
@@ -149,47 +120,41 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                         Text="{Binding CurrentTeacherData.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Grid.Row="5"
-                           Grid.Column="2"
-                           Margin="0,5"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource FontSizeRegular}"
-                           Text="{Binding CurrentTeacherData.Address, Mode=OneWay}"
-                           Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
-
+                
                 <!-- Access -->
                 <TextBlock Grid.Row="6"
                            Grid.Column="0"
                            Margin="0,5"
-                           VerticalAlignment="Center"
+                           VerticalAlignment="Top"
                            FontSize="{StaticResource FontSizeRegular}"
                            Text="Access"/>
 
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Margin="0,5"
+                            VerticalAlignment="Center">
+
+                    <RadioButton Content="Admin" IsChecked="{Binding }"/>
+                    <RadioButton Content="Teacher" />
+
+                </StackPanel>
                 <ComboBox Grid.Row="6"
                           Grid.Column="2"
                           Margin="0,5"
                           VerticalAlignment="Center"
+                          Visibility="Collapsed"
                           FontSize="{StaticResource FontSizeRegular}"
-                          SelectedIndex="{Binding CurrentTeacherData.Permission, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                          SelectedIndex="{Binding CurrentTeacherData.PermissionIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                     <ComboBoxItem Content="Super Admin"/>
                     <ComboBoxItem Content="Admin"/>
                     <ComboBoxItem Content="Guru"/>
                 </ComboBox>
 
-                <TextBlock Grid.Row="6"
-                           Grid.Column="2"
-                           Margin="0,5"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource FontSizeRegular}"
-                           Text="{Binding CurrentTeacherData.Teacher.Permission, Mode=OneWay}"
-                           Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
+                
                 <!-- Status -->
                 <TextBlock Grid.Row="7"
                            Grid.Column="0"
@@ -198,26 +163,27 @@
                            FontSize="{StaticResource FontSizeRegular}"
                            Text="Status"/>
 
-                <ComboBox Grid.Row="7"
-                          Grid.Column="2"
-                          Margin="0,5"
-                          VerticalAlignment="Center"
-                          FontSize="{StaticResource FontSizeRegular}"
-                          SelectedIndex="{Binding CurrentTeacherData.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            Margin="0,5"
+                            VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Storyboard x:Key="ToGreen">
+                            <ColorAnimation To="Green"
+                                            Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            FillBehavior="Stop"
+                                            Duration="0:0:1" />
+                        </Storyboard>
+                    </StackPanel.Resources>
+                    <ToggleButton IsChecked="{Binding CurrentTeacherData.IsActiveTeacher}" />
+                    <TextBlock Text="{Binding CurrentTeacherData.Status, Mode=OneWay, FallbackValue=Aktif}" 
+                               FontSize="{StaticResource FontSizeRegular}"
+                               Margin="10,0,0,0"/>
+                    
+                </StackPanel>
 
-                    <ComboBoxItem Content="Aktif"/>
-                    <ComboBoxItem Content="Tidak Aktif"/>
-                </ComboBox>
-
-                <TextBlock Grid.Row="7"
-                           Grid.Column="2"
-                           Margin="0,5"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource FontSizeRegular}"
-                           Text="{Binding CurrentTeacherData.Teacher.Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                           Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}"/>
-
+               
 
 
                 <!-- Date Added -->
