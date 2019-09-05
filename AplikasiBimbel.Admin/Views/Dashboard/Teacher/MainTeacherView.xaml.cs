@@ -19,7 +19,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
     {
         #region Private Member
 
-        private TeacherDatabaseHandle teacherDatabase;
+        private TeacherController teacherDatabase;
 
         private List<TeacherListItemViewModel> _originalTeacherList;
         private List<TeacherListItemViewModel> _teacherList;
@@ -28,6 +28,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         private TeacherLogView _teacherLogView;
         private string _teacherListSortLabel;
         private string _searchKeyword;
+        private bool _isFilterVisible;
 
         #endregion
 
@@ -41,7 +42,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             //Set Data Context
             this.DataContext = this;
 
-            teacherDatabase = new TeacherDatabaseHandle();
+            teacherDatabase = new TeacherController();
 
 
         }
@@ -133,9 +134,9 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         public string TeacherListSortLabel {
             get {
                 if (_teacherListSortLabel == null)
-                    return "Sort By : ID";
+                    return "ID";
 
-                return "Sort By : " + _teacherListSortLabel;
+                return _teacherListSortLabel;
             }
             set {
                 _teacherListSortLabel = value;
@@ -165,6 +166,20 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
         }
 
+        public bool IsTeacherSelected {
+            get {
+                return TeacherDataView.CurrentTeacherData != null;
+            }
+        }
+
+        public bool IsFilterVisible {
+            get { return _isFilterVisible; }
+            set {
+                _isFilterVisible = value;
+
+                OnPropertyChanged(nameof(IsFilterVisible));
+            }
+        }
         #endregion
 
 
@@ -172,6 +187,8 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         private void TeacherSearch(string searchKeyword)
         {
+            if (TeacherList.Count < 1)
+                return;
 
             if (string.IsNullOrEmpty(searchKeyword))
             {
@@ -180,6 +197,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
 
             List<TeacherListItemViewModel> newList = new List<TeacherListItemViewModel>();
+
             foreach (var i in _originalTeacherList)
             {
                 if (i.Teacher.Teacher_ID.ToString().Contains(searchKeyword)) { }
@@ -278,19 +296,12 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
                 SelectTeacher(TeacherList[0].Teacher.Teacher_ID);
         }
 
-        private TeacherModel GetTeacherData(int teacher_ID)
-        {
-            foreach (var item in TeacherList)
-            {
-                if (item.Teacher.Teacher_ID == teacher_ID)
-                    return item.Teacher;
-            }
-
-            return null;
-        }
-
         private void SelectTeacher(int teacher_ID)
         {
+            //Check Selected Item
+            if (teacher_ID == TeacherDataView.CurrentTeacherData.Teacher_ID)
+                return;
+
             //Get Teacher Data From Database
             TeacherModel teacher = teacherDatabase.Find(teacher_ID);
 
@@ -312,6 +323,9 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             
             //Open Teacher Data View
             CurrentTeacherPanelView = TeacherDataView;
+
+            //Notify the Is Teacher Selected Property
+            OnPropertyChanged(nameof(IsTeacherSelected));
 
         }
 
@@ -357,7 +371,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         public RelayParameterizedCommand TeacherSelectCommand {
             get {
                 if (_teacherSelectCommand == null)
-                    _teacherSelectCommand = new RelayParameterizedCommand(TeacherSelectCommand_Execute, TeacherSelectCommand_CanExecute); 
+                    _teacherSelectCommand = new RelayParameterizedCommand(TeacherSelectCommand_Execute); 
 
                 return _teacherSelectCommand;
             }
@@ -377,11 +391,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             SelectTeacher(teacher_ID);
         }
 
-        private bool TeacherSelectCommand_CanExecute(object param)
-        {
-            return true;
-        }
-
         #endregion
 
 
@@ -392,7 +401,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         public RelayParameterizedCommand TeacherSorting {
             get {
                 if (_teacherSorting == null)
-                    _teacherSorting = new RelayParameterizedCommand(TeacherSort_Execute, TeacherSort_CanExecute); 
+                    _teacherSorting = new RelayParameterizedCommand(TeacherSort_Execute); 
 
                 return _teacherSorting;
             }
@@ -406,10 +415,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             TeacherListSort((TeacherSort)sort);
         }
         
-        private bool TeacherSort_CanExecute(object param)
-        {
-            return true;
-        }
 
         #endregion
 
@@ -441,14 +446,40 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         #endregion
 
 
+
+        #region FilterVisible Command
+
+        private RelayCommand _FilterVisible = null;
+
+        public RelayCommand FilterVisible {
+            get {
+                if (_FilterVisible == null)
+                    _FilterVisible = new RelayCommand(FilterVisible_Execute);
+
+                return _FilterVisible;
+            }
+        }
+
+        private void FilterVisible_Execute()
+        {
+            IsFilterVisible = !IsFilterVisible;
+        }
+
+        #endregion
+
+
         #region Event
 
         private void TeacherView_Loaded(object sender, RoutedEventArgs e)
         {
 
+            //Read Taecher
             if (TeacherList.Count < 1)
-                //Read Taecher
                 ReadTeacherList();
+
+            Textbox_Search.Focus();
+
+            IsFilterVisible = false;
         }
 
         #endregion

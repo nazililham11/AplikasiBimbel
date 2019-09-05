@@ -131,26 +131,11 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
         }
 
-        public int Permission {
-            get {
-                if (string.IsNullOrEmpty(_mainModel.Permission))
-                    return -1;
-
-                if (_mainModel.Permission.Equals("Super Admin"))
-                    return 0;
-                else if (_mainModel.Permission.Equals("Admin"))
-                    return 1;
-                else
-                    return 2;
-            }
+        public string Permission {
+            get { return _mainModel.Permission; }
             set {
                 //Set Value to main model
-                if (value == 0)
-                    _mainModel.Permission = "Super Admin";
-                else if (value == 1)
-                    _mainModel.Permission = "Admin";
-                else if (value == 2)
-                    _mainModel.Permission = "Guru";
+                _mainModel.Permission = value;
 
                 //Check Is Value Changed
                 if (!_originalModel.Permission.Equals(value))
@@ -164,22 +149,40 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
         }
 
-        public int Status {
+        public int PermissionIndex {
             get {
-                if (string.IsNullOrEmpty(_mainModel.Status))
+                if (string.IsNullOrEmpty(Permission))
                     return -1;
 
-                if (_mainModel.Status.Equals("Aktif"))
+                if (Permission.Equals("Super Admin"))
                     return 0;
-                else
+                else if (Permission.Equals("Admin"))
                     return 1;
+                else
+                    return 2;
             }
             set {
                 //Set Value to main model
                 if (value == 0)
-                    _mainModel.Status = "Aktif";
+                    Permission = "Super Admin";
                 else if (value == 1)
-                    _mainModel.Status = "Tidak Aktif";
+                    Permission = "Admin";
+                else if (value == 2)
+                    Permission = "Guru";
+
+                //Check Is Value Changed
+                if (!_originalModel.Permission.Equals(value))
+                    _isPermissionChanged = true;
+                else
+                    _isPermissionChanged = false;
+            }
+        }
+
+        public string Status {
+            get { return _mainModel.Status; }
+            set {
+                //Set Value to main model
+                _mainModel.Status = value;
 
                 //Check Is Value Changed
                 if (!_originalModel.Status.Equals(value))
@@ -190,6 +193,31 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
                 //Property Changed
                 OnPropertyChanged(nameof(Status));
                 OnPropertyChanged(nameof(IsChanged));
+            }
+        }
+
+        public int StatusIndex {
+            get {
+                if (string.IsNullOrEmpty(Status))
+                    return -1;
+
+                if (Status.Equals("Aktif"))
+                    return 0;
+                else
+                    return 1;
+            }
+            set {
+                //Set Value to main model
+                if (value == 0)
+                    Status = "Aktif";
+                else if (value == 1)
+                    Status = "Tidak Aktif";
+
+                //Check Is Value Changed
+                if (!_originalModel.Status.Equals(value))
+                    _isStatusChanged = true;
+                else
+                    _isStatusChanged = false;
             }
         }
 
@@ -225,13 +253,13 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         public bool IsActiveTeacher {
             get {
-                return Status == 0;
+                return StatusIndex == 0;
             }
             set {
                 if (value)
-                    Status = 0;
+                    StatusIndex = 0;
                 else
-                    Status = 1;
+                    StatusIndex = 1;
             }
         }
 

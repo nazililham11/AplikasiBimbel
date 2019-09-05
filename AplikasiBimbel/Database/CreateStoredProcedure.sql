@@ -138,13 +138,13 @@ EXEC sp_ReadActiveTeacher
 GO
 CREATE PROCEDURE sp_GetTeacherDetails @teacher_id INT AS
 BEGIN 
-	SELECT Name, Username, Password, Address, PhoneNumber, Permission, Status, DateIn, DateOut
+	SELECT Username, Password, Name, Address, PhoneNumber, Permission, Status, DateIn, DateOut
 	FROM Teachers 
 	WHERE Teacher_ID = @teacher_id
 END
 --Example
-EXEC sp_GetTeacherDetails @teacher_id = '4'
-
+EXEC sp_GetTeacherDetails @teacher_id = '1'
+EXEC sp_GetTeacherDetails @teacher_id = '1'
 
 --Get Teacher Details By Username
 GO

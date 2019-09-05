@@ -19,9 +19,10 @@
         <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
+        <converter:BooleanToIconConverter x:Key="BooleanToIconConverter"/>
+
 
     </UserControl.Resources>
-
     <Grid Background="{StaticResource PrimaryBackgroundLight}">
         <Grid.ColumnDefinitions>
             <!-- Teacher Selector -->
@@ -75,31 +76,67 @@
                             </StackPanel>
 
                             <TextBox x:Name="Textbox_Search"
-                                     Padding="5,0"
+                                     Padding="20,0"
                                      VerticalContentAlignment="Center"
                                      Background="Transparent"
                                      BorderThickness="0"
                                      FontSize="{StaticResource FontSizeRegular}"
+                                     MaxLines="1"
                                      Text="{Binding SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
 
                         </Grid>
+
                         <Button Grid.Column="1"
                                 Width="60"
                                 Height="60"
                                 Padding="5"
                                 Background="White"
                                 BorderBrush="{StaticResource Accent_Gray-300}"
-                                BorderThickness="1,0,0,0"
+                                BorderThickness="1,0,1,0"
+                                Command="{Binding FilterVisible}"
                                 FocusVisualStyle="{x:Null}"
-                                Foreground="{StaticResource Accent_Gray-700}">
+                                Foreground="{StaticResource Accent_Gray-700}"
+                                ToolTip="More Filters">
 
                             <materialDesign:PackIcon Width="25"
                                                      Height="25"
                                                      Foreground="{StaticResource PrimaryHueLightForegroundBrush}"
                                                      Kind="ChevronDown"
-                                                     Opacity=".7"/>
+                                                     Opacity=".7"
+                                                     RenderTransformOrigin=".5,.5">
+                                <materialDesign:PackIcon.RenderTransform>
+                                    <RotateTransform Angle="0"/>
+                                </materialDesign:PackIcon.RenderTransform>
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="materialDesign:PackIcon">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFilterVisible, FallbackValue=False}"
+                                                         Value="False">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(materialDesign:PackIcon.RenderTransform).(RotateTransform.Angle)"
+                                                                             To="180"
+                                                                             Duration="0:0:.3"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(materialDesign:PackIcon.RenderTransform).(RotateTransform.Angle)"
+                                                                             To="0"
+                                                                             Duration="0:0:.3"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
                         </Button>
                         <materialDesign:PopupBox Grid.Column="2"
                                                  Width="60"
@@ -110,6 +147,13 @@
                                                  BorderThickness="1,0,1,0"
                                                  FocusVisualStyle="{x:Null}"
                                                  Foreground="{StaticResource Accent_Gray-700}">
+                            <materialDesign:PopupBox.ToggleContent>
+                                <materialDesign:PackIcon Width="25"
+                                                         Height="25"
+                                                         FocusVisualStyle="{x:Null}"
+                                                         Kind="MoreVert"
+                                                         Opacity=".7"/>
+                            </materialDesign:PopupBox.ToggleContent>
 
                             <StackPanel>
                                 <Button>
@@ -155,98 +199,113 @@
                 </Border>
 
                 <!-- Filers -->
-                <Border Padding="10,5"
-                        Background="{StaticResource PrimaryBackgroundLight}"
+                <Border Background="{StaticResource PrimaryBackgroundLight}"
                         BorderBrush="{StaticResource Accent_Gray-300}"
                         BorderThickness="0,0,0,1">
 
                     <StackPanel Orientation="Vertical">
+                        <Border Height="40"
+                                BorderBrush="{StaticResource Accent_Gray-300}"
+                                BorderThickness="0,0,0,1">
+                            <DockPanel LastChildFill="False">
+                                <!-- Sort Button -->
+                                <materialDesign:PopupBox Margin="10,0,0,0"
+                                                         Padding="0"
+                                                         Height="40"
+                                                         DockPanel.Dock="Left"
+                                                         FocusVisualStyle="{x:Null}"
+                                                         Style="{StaticResource MaterialDesignPopupBox}"
+                                                         ToolTip="{Binding Mode=OneWay, StringFormat={}(Sort By : {0}), Path=TeacherListSortLabel}">
 
-                        <!-- Filters -->
-                        <Grid Visibility="Collapsed">
-                            <Grid.ColumnDefinitions>
-                                <!-- Search Box -->
-                                <ColumnDefinition Width="*"/>
-                                <!-- Selection Mode -->
-                                <ColumnDefinition Width="Auto"/>
-                                <!-- Sort -->
-                                <ColumnDefinition Width="Auto"/>
-                                <!-- Refresh -->
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                                    <materialDesign:PopupBox.ToggleContent>
+
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <materialDesign:PackIcon Width="25"
+                                                                     Height="25"
+                                                                     Margin="0,0,5,0"
+                                                                     Foreground="{StaticResource Accent_Black}"
+                                                                     Kind="Sort"
+                                                                     Opacity=".7"/>
+
+                                            <TextBlock VerticalAlignment="Center"
+                                                       FontSize="{StaticResource FontSizeRegular}"
+                                                       Opacity=".7"
+                                                       Text="{Binding TeacherListSortLabel,FallbackValue=Sort}"/>
+                                        </StackPanel>
 
 
-                            <!-- Selection Mode Button -->
-                            <Button Grid.Column="1"
-                                    Width="38"
-                                    Height="38"
-                                    Margin="10,0,0,0"
-                                    Padding="3"
-                                    VerticalAlignment="Stretch"
-                                    ToolTip="Selection Mode">
+                                    </materialDesign:PopupBox.ToggleContent>
 
-                                <materialDesign:PackIcon Width="25"
-                                                         Height="25"
-                                                         Kind="CheckboxMultipleMarked"/>
-                            </Button>
+                                    <StackPanel>
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="0"
+                                                Content="ID"/>
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="1"
+                                                Content="Name"/>
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="2"
+                                                Content="Username"/>
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="3"
+                                                Content="Permission"/>
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="4"
+                                                Content="Status"/>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
 
-                            <!-- Sort Button -->
-                            <materialDesign:PopupBox Grid.Column="2"
-                                                     Width="40"
-                                                     Height="40"
-                                                     Margin="10,0,0,0"
-                                                     Padding="0"
-                                                     Style="{StaticResource MaterialDesignPopupBox}"
-                                                     ToolTip="{Binding TeacherListSortLabel, Mode=OneWay, StringFormat={}Sort By : {0}}">
+                                <!-- Shows -->
+                                <ComboBox Width="100"
+                                          Height="40"
+                                          VerticalContentAlignment="Center"
+                                          HorizontalContentAlignment="Right"
+                                          Margin="0,0,10,0"
+                                          DockPanel.Dock="Right"
+                                          FontSize="{StaticResource FontSizeRegular}"
+                                          Opacity=".8"
+                                          SelectedIndex="3"
+                                          ToolTip="Show">
 
-                                <materialDesign:PopupBox.ToggleContent>
+                                    <ComboBoxItem Content="Semua"/>
+                                    <Separator/>
+                                    <ComboBoxItem Content="Aktif"/>
+                                    <ComboBoxItem Content="Tidak Aktif"/>
+                                    <Separator/>
+                                    <ComboBoxItem Content="Admin"/>
+                                    <ComboBoxItem Content="Guru"/>
+                                </ComboBox>
+                            </DockPanel>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsFilterVisible, FallbackValue=False}"
+                                                     Value="False">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                                         To="0"
+                                                                         Duration="0:0:0.200"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                                         To="40"
+                                                                         Duration="0:0:0.200"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
 
-                                    <Button Width="38"
-                                            Height="38"
-                                            Padding="3">
-
-                                        <materialDesign:PackIcon Width="25"
-                                                                 Height="25"
-                                                                 Foreground="{StaticResource Accent_White}"
-                                                                 Kind="Sort"
-                                                                 Opacity=".8"/>
-
-                                    </Button>
-                                </materialDesign:PopupBox.ToggleContent>
-
-                                <StackPanel>
-                                    <Button Command="{Binding TeacherSorting}"
-                                            CommandParameter="0"
-                                            Content="ID"/>
-                                    <Button Command="{Binding TeacherSorting}"
-                                            CommandParameter="1"
-                                            Content="Name"/>
-                                    <Button Command="{Binding TeacherSorting}"
-                                            CommandParameter="2"
-                                            Content="Username"/>
-                                    <Button Command="{Binding TeacherSorting}"
-                                            CommandParameter="3"
-                                            Content="Permission"/>
-                                    <Button Command="{Binding TeacherSorting}"
-                                            CommandParameter="4"
-                                            Content="Status"/>
-                                </StackPanel>
-                            </materialDesign:PopupBox>
-
-                            <!-- Refresh -->
-                            <Button Grid.Column="3"
-                                    Width="38"
-                                    Height="38"
-                                    Margin="10,0,0,0"
-                                    Padding="3"
-                                    VerticalAlignment="Stretch"
-                                    ToolTip="Refresh">
-                                <materialDesign:PackIcon Width="25"
-                                                         Height="25"
-                                                         Kind="Refresh"/>
-                            </Button>
-
-                        </Grid>
 
                         <!-- 2nd Filter -->
                         <Grid>
@@ -259,28 +318,12 @@
 
                             <!-- Data Found Label -->
                             <TextBlock Grid.Column="0"
-                                       Margin="20,0"
+                                       Margin="10,0"
                                        VerticalAlignment="Center"
                                        FontSize="{StaticResource FontSizeRegular}"
                                        Opacity=".7"
                                        Text="{Binding DataFoundLabel, Mode=OneWay, FallbackValue={}99 Data Found}"/>
 
-                            <!-- Shows -->
-                            <ComboBox Grid.Column="1"
-                                      Width="80"
-                                      HorizontalAlignment="Right"
-                                      SelectedIndex="3"
-                                      ToolTip="Tampilkan"
-                                      Visibility="Collapsed">
-
-                                <ComboBoxItem Content="Semua"/>
-                                <Separator/>
-                                <ComboBoxItem Content="Aktif"/>
-                                <ComboBoxItem Content="Tidak Aktif"/>
-                                <Separator/>
-                                <ComboBoxItem Content="Admin"/>
-                                <ComboBoxItem Content="Guru"/>
-                            </ComboBox>
 
                         </Grid>
 
@@ -418,7 +461,8 @@
                     BorderBrush="{StaticResource Accent_Gray-300}"
                     BorderThickness="1,0,0,1">
 
-                <Grid DataContext="{Binding TeacherDataView}">
+                <Grid DataContext="{Binding TeacherDataView}"
+                      Visibility="{Binding ElementName=MainTeacherView_UserControl, Path=IsTeacherSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -444,7 +488,7 @@
                                    Grid.Column="0"
                                    FontSize="{StaticResource FontSizeRegular}"
                                    Opacity=".7"
-                                   Text="{Binding CurrentTeacherData.Teacher_ID, Mode=OneWay, StringFormat={}{0:0000}, FallbackValue=Teacher_ID}"
+                                   Text="{Binding CurrentTeacherData.Teacher_ID, Mode=OneWay, StringFormat={}{0:00000}, FallbackValue=00000}"
                                    TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
 
@@ -454,31 +498,15 @@
 
                         <!-- TODO: Create Style For Button Hover -->
 
-                        <!-- Edit -->
-                        <Button Margin="5,0"
-                                Padding="3"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Command="{Binding TeacherEdit}"
-                                FocusVisualStyle="{x:Null}"
-                                ToolTip="Edit"
-                                Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}">
-
-                            <materialDesign:PackIcon Width="25"
-                                                     Height="25"
-                                                     Foreground="{StaticResource PrimaryColorLight}"
-                                                     Kind="Edit"/>
-                        </Button>
-
 
                         <!-- Reset Password -->
-                        <Button Margin="5,0"
+                        <Button Margin="10,0"
                                 Padding="3"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 Command="{Binding TeacherResetPassword}"
-                                ToolTip="Reset Password"
                                 FocusVisualStyle="{x:Null}"
+                                ToolTip="Reset Password"
                                 Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}">
 
                             <materialDesign:PackIcon Width="25"
@@ -487,49 +515,58 @@
                                                      Kind="PasswordReset"/>
                         </Button>
 
-                        <!-- Save -->
-                        <Button Margin="5,0"
-                                Padding="3"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Command="{Binding TeacherSaveChanges}"
-                                ToolTip="Save"
-                                Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-
-                            <materialDesign:PackIcon Width="25"
-                                                     Height="25"
-                                                     Foreground="{StaticResource PrimaryForeground}"
-                                                     Kind="Check"/>
-                        </Button>
-
-                        <!-- Cancel -->
-                        <Button Margin="5,0"
-                                Padding="3"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Command="{Binding CancelEdit}"
-                                FocusVisualStyle="{x:Null}"
-                                ToolTip="Cancel"
-                                Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-
-                            <materialDesign:PackIcon Width="25"
-                                                     Height="25"
-                                                     Foreground="{StaticResource Accent_Red}"
-                                                     Kind="Cancel"/>
-                        </Button>
                     </StackPanel>
 
                     <Button Grid.Column="3"
                             Height="Auto"
-                            FocusVisualStyle="{x:Null}"
-                            Background="White"
+                            Margin="10,0,0,0"
+                            Padding="10,0"
+                            Background="DeepSkyBlue"
                             BorderBrush="{StaticResource Accent_Gray-300}"
-                            BorderThickness="1,0,0,0">
+                            BorderThickness="1,0,0,0"
+                            Command="{Binding TeacherSaveChanges}"
+                            FocusVisualStyle="{x:Null}"
+                            Foreground="White">
                         <StackPanel>
-                            <TextBlock Foreground="Black"
-                                       Opacity=".7"
+                            <TextBlock FontSize="{StaticResource FontSizeRegular}"
+                                       Opacity="1"
+                                       Style="{StaticResource MaterialDesignButtonTextBlock}"
                                        Text="Save Changes"/>
                         </StackPanel>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation FillBehavior="Stop"
+                                                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                                                    To="WhiteSmoke"
+                                                                    Duration="0:0:.5"/>
+                                                    <ColorAnimation FillBehavior="Stop"
+                                                                    Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+                                                                    To="Black"
+                                                                    Duration="0:0:.5" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                                                    To="DeepSkyBlue"
+                                                                    Duration="0:0:.5" />
+                                                    <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+                                                                    To="White"
+                                                                    Duration="0:0:.5" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </Grid>
 
@@ -538,14 +575,17 @@
             <!-- Content -->
             <ContentControl Grid.Row="1"
                             Content="{Binding CurrentTeacherPanelView}"
-                            Focusable="False"/>
+                            Focusable="False"
+                            Visibility="{Binding IsTeacherSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <!-- Second Tab -->
             <Border Grid.Row="2"
                     BorderBrush="{StaticResource Accent_Gray-300}"
                     BorderThickness="0,1,0,0"
                     Visibility="{Binding IsCurrentSessionHasSuperAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal">
+
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding IsTeacherSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
 
 
                     <!-- General -->
@@ -598,7 +638,7 @@
                             CommandParameter="1"
                             FocusVisualStyle="{x:Null}"
                             Foreground="{Binding IsLogView, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter=DeepSkyBlue;Black}">
-                        
+
                         <Grid Width="100"
                               Height="40">
 
