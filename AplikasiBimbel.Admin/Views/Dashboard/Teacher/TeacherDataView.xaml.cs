@@ -129,7 +129,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             if (teacher == null)
                 return false;
 
-            teacher.Password = null;
+            teacher.Password = string.Empty;
 
             return _teacherDatabase.Update(teacher);
         }

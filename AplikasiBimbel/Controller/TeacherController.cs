@@ -13,7 +13,6 @@ namespace AplikasiBimbel.Controller
     public class TeacherController
     {
 
-
         #region Private Member
 
         private readonly string _connectionString;
@@ -61,6 +60,12 @@ namespace AplikasiBimbel.Controller
         //Stored Procedure Name: sp_DeleteTeacher 
         //Parameters : @teacher_id 
         public const string DeleteTeacher = "sp_DeleteTeacher";
+
+        //Reset Teacher Password By ID
+        //Stored Procedure Name: sp_ResetTeacherPassword 
+        //Parameters : @teacher_id 
+        public const string ResetTeacherPassword = "sp_ResetTeacherPassword";
+
 
         #endregion
 

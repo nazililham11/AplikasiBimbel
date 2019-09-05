@@ -1,4 +1,5 @@
-﻿----Students-----
+﻿
+----Students-----
 
 CREATE PROCEDURE sp_InsertStudents 
 	@name VARCHAR(40), 
@@ -99,8 +100,8 @@ ALTER PROCEDURE sp_InsertTeacher
   @permission 	VARCHAR(20)
  AS
  BEGIN
-	INSERT INTO Teachers(Username, Name, Password, Address, PhoneNumber, Permission) 
-	VALUES (@username, @name, NULL, @address, @phoneNumber, @permission)
+	INSERT INTO Teachers(Teacher_ID, Username, Name, Password, Address, PhoneNumber, Permission) 
+	VALUES ([dbo].fn_GenerateTeacherID() ,@username, @name, NULL, @address, @phoneNumber, @permission)
  END
  --Example
  EXEC sp_InsertTeacher
@@ -170,7 +171,7 @@ EXEC sp_GenerateTeacherID
 
 --Upadte Teacher 
 GO
-CREATE PROCEDURE sp_UpdateTeacher
+ALTER PROCEDURE sp_UpdateTeacher
   @teacher_id		INT,
   @username 		VARCHAR(30),
   @password 		VARCHAR(30),
@@ -182,6 +183,13 @@ CREATE PROCEDURE sp_UpdateTeacher
   @dateout			DATETIME
 AS
 BEGIN
+
+
+	IF @status = 'Aktif' 
+		SET @dateout = NULL;
+	ELSE 
+		SET @dateout = GETDATE();
+
 	UPDATE Teachers
 	SET Username = @username,
 		Password = @password,
@@ -217,3 +225,28 @@ END
 --Example
 EXEC sp_DeleteTeacher @teacher_id = '4'
 
+
+
+
+--Reset Teacher Password
+GO
+CREATE PROCEDURE sp_ResetTeacherPassword @teacher_id INT AS 
+BEGIN
+	UPDATE Teachers 
+	SET Password = NULL
+	WHERE Teacher_ID = @teacher_id
+END
+--Example
+EXEC sp_ResetTeacherPassword @teacher_id = '2'
+
+
+--Generate New Teacher ID
+GO
+CREATE FUNCTION fn_GenerateTeacherID()
+RETURNS INT AS
+BEGIN 
+	RETURN (SELECT MAX(Teacher_ID) + 1 AS Teacher_ID FROM Teachers);
+END
+--Example
+GO
+SELECT [dbo].fn_GenerateTeacherID()

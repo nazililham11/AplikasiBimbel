@@ -1,0 +1,469 @@
+﻿<UserControl x:Class="AplikasiBimbel.Admin.Views.Dashboard.Student.StudentListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:AplikasiBimbel.Converters;assembly=AplikasiBimbel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:AplikasiBimbel.Admin.Views.Dashboard.Student"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="400">
+
+
+    <UserControl.Resources>
+        <!-- Converters -->
+        <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter" />
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converter:TextToVisibilityConverter x:Key="TextToVisibilityConverter" />
+        <converter:BooleanToIconConverter x:Key="BooleanToIconConverter" />
+
+        <!--Toggle Button Filter Icon-->
+        <Style x:Key="FilterToggleButtonIcon"
+               TargetType="materialDesign:PackIcon">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ToggleFilterVisible, Path=IsChecked}"
+                             Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(materialDesign:PackIcon.RenderTransform).(RotateTransform.Angle)"
+                                                 To="180"
+                                                 Duration="0:0:.3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(materialDesign:PackIcon.RenderTransform).(RotateTransform.Angle)"
+                                                 To="0"
+                                                 Duration="0:0:.3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Toggle Button--> 
+        <Style TargetType="{x:Type ToggleButton}"
+               x:Key="FilterToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--FilterBorder-->
+        <Style TargetType="Border"
+               x:Key="FilterBorder">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ToggleFilterVisible, Path=IsChecked}"
+                             Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                 To="0"
+                                                 Duration="0:0:0.200" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                 To="40"
+                                                 Duration="0:0:0.200" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+    </UserControl.Resources>
+        <!-- Side Panel -->
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Background="{StaticResource AccentWhiteSmoke}"
+                BorderThickness="0">
+
+            <StackPanel Orientation="Vertical">
+
+                <!-- Header -->
+                <Border Height="60"
+                        Background="{StaticResource PrimaryBackgroundLight}"
+                        BorderBrush="{StaticResource Accent_Gray-300}"
+                        BorderThickness="0,0,0,1">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Search box -->
+                        <Grid Grid.Column="0">
+
+                            <StackPanel Margin="20,0"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Visibility="{Binding ElementName=Textbox_Search, Path=Text, Converter={StaticResource TextToVisibilityConverter}}">
+
+                                <materialDesign:PackIcon Width="25"
+                                                         Height="25"
+                                                         VerticalAlignment="Center"
+                                                         Kind="Search"
+                                                         Opacity=".7" />
+                                <TextBlock Margin="5,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           FontStyle="Italic"
+                                           Opacity=".7"
+                                           Text="Search" />
+
+                            </StackPanel>
+
+                            <TextBox x:Name="Textbox_Search"
+                                     Padding="20,0"
+                                     VerticalContentAlignment="Center"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     FontSize="{StaticResource FontSizeRegular}"
+                                     MaxLines="1"
+                                     Text="{Binding SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+                        </Grid>
+
+                        <ToggleButton x:Name="ToggleFilterVisible"
+                                      Grid.Column="1"
+                                      Width="60"
+                                      Height="60"
+                                      Padding="5"
+                                      Background="White"
+                                      BorderBrush="{StaticResource Accent_Gray-300}"
+                                      BorderThickness="1,0,1,0"
+                                      Command="{Binding FilterVisible}"
+                                      FocusVisualStyle="{x:Null}"
+                                      IsChecked="True"
+                                      Foreground="{StaticResource Accent_Gray-700}"
+                                      Style="{StaticResource FilterToggleButton}"
+                                      ToolTip="More Filters">
+
+                            <materialDesign:PackIcon Width="25"
+                                                     Height="25"
+                                                     Foreground="{StaticResource PrimaryHueLightForegroundBrush}"
+                                                     Kind="ChevronUp"
+                                                     Opacity=".7"
+                                                     RenderTransformOrigin=".5,.5"
+                                                     Style="{StaticResource FilterToggleButtonIcon}">
+                                <materialDesign:PackIcon.RenderTransform>
+                                    <RotateTransform Angle="0" />
+                                </materialDesign:PackIcon.RenderTransform>
+                            </materialDesign:PackIcon>
+
+                        </ToggleButton>
+
+
+                        <materialDesign:PopupBox Grid.Column="2"
+                                                 Width="60"
+                                                 Height="60"
+                                                 Padding="5"
+                                                 Background="White"
+                                                 BorderBrush="{StaticResource Accent_Gray-300}"
+                                                 BorderThickness="1,0,1,0"
+                                                 FocusVisualStyle="{x:Null}"
+                                                 Foreground="{StaticResource Accent_Gray-700}">
+                            <materialDesign:PopupBox.ToggleContent>
+                                <materialDesign:PackIcon Width="25"
+                                                         Height="25"
+                                                         FocusVisualStyle="{x:Null}"
+                                                         Kind="MoreVert"
+                                                         Opacity=".7" />
+                            </materialDesign:PopupBox.ToggleContent>
+
+                            <StackPanel>
+                                <Button Command="{Binding AddNewTeacher}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="16"
+                                                                 Height="16"
+                                                                 VerticalAlignment="Center"
+                                                                 Kind="Add" />
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="{StaticResource FontSizeRegular}"
+                                                   Text="Add New Teacher" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="16"
+                                                                 Height="16"
+                                                                 Margin="0,0,5,0"
+                                                                 VerticalAlignment="Center"
+                                                                 Kind="Refresh" />
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="{StaticResource FontSizeRegular}"
+                                                   Text="Refresh" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="16"
+                                                                 Height="16"
+                                                                 Margin="0,0,5,0"
+                                                                 VerticalAlignment="Center"
+                                                                 Kind="Selection" />
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="{StaticResource FontSizeRegular}"
+                                                   Text="Selection Mode" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                    </Grid>
+                </Border>
+
+                <!-- Filers -->
+                <Border Background="{StaticResource PrimaryBackgroundLight}"
+                        BorderBrush="{StaticResource Accent_Gray-300}"
+                        BorderThickness="0,0,0,1">
+
+                    <StackPanel Orientation="Vertical">
+                        <Border Height="40"
+                                BorderBrush="{StaticResource Accent_Gray-300}"
+                                BorderThickness="0,0,0,1"
+                                Style="{StaticResource FilterBorder}">
+                            <DockPanel LastChildFill="False">
+                                <!-- Sort Button -->
+                                <materialDesign:PopupBox Height="40"
+                                                         Margin="10,0,0,0"
+                                                         Padding="0"
+                                                         DockPanel.Dock="Left"
+                                                         FocusVisualStyle="{x:Null}"
+                                                         Style="{StaticResource MaterialDesignPopupBox}"
+                                                         ToolTip="{Binding Mode=OneWay, StringFormat={}(Sort By : {0}), Path=TeacherListSortLabel}">
+
+                                    <materialDesign:PopupBox.ToggleContent>
+
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <materialDesign:PackIcon Width="25"
+                                                                     Height="25"
+                                                                     Margin="0,0,5,0"
+                                                                     Foreground="{StaticResource Accent_Black}"
+                                                                     Kind="Sort"
+                                                                     Opacity=".7" />
+
+                                            <TextBlock VerticalAlignment="Center"
+                                                       FontSize="{StaticResource FontSizeRegular}"
+                                                       Opacity=".7"
+                                                       Text="{Binding TeacherListSortLabel, FallbackValue=Sort}" />
+                                        </StackPanel>
+
+
+                                    </materialDesign:PopupBox.ToggleContent>
+
+                                    <StackPanel>
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="0"
+                                                Content="ID" />
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="1"
+                                                Content="Name" />
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="2"
+                                                Content="Username" />
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="3"
+                                                Content="Permission" />
+                                        <Button Command="{Binding TeacherSorting}"
+                                                CommandParameter="4"
+                                                Content="Status" />
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+
+                                <!-- Shows -->
+                                <ComboBox Width="100"
+                                          Height="40"
+                                          Margin="0,0,10,0"
+                                          HorizontalContentAlignment="Right"
+                                          VerticalContentAlignment="Center"
+                                          DockPanel.Dock="Right"
+                                          FontSize="{StaticResource FontSizeRegular}"
+                                          Opacity=".8"
+                                          SelectedIndex="3"
+                                          ToolTip="Show">
+
+                                    <ComboBoxItem Content="Semua" />
+                                    <Separator />
+                                    <ComboBoxItem Content="Aktif" />
+                                    <ComboBoxItem Content="Tidak Aktif" />
+                                    <Separator />
+                                    <ComboBoxItem Content="Admin" />
+                                    <ComboBoxItem Content="Guru" />
+                                </ComboBox>
+                            </DockPanel>
+                        </Border>
+
+
+                        <!-- 2nd Filter -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <!-- Data Found Label -->
+                                <ColumnDefinition Width="*" />
+                                <!-- Shows -->
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Data Found Label -->
+                            <TextBlock Grid.Column="0"
+                                       Margin="10,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSizeRegular}"
+                                       Opacity=".7"
+                                       Text="{Binding DataFoundLabel, Mode=OneWay, FallbackValue={}99 Data Found}" />
+
+
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+
+                <!-- Content -->
+                <ItemsControl Padding="0"
+                              VerticalContentAlignment="Top"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              BorderThickness="0"
+                              ItemsSource="{Binding Path=TeacherList}"
+                              ScrollViewer.CanContentScroll="False">
+
+                    <!-- List Teacher -->
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+
+                            <Button Height="60"
+                                    Margin="0"
+                                    Padding="0"
+                                    Background="White"
+                                    BorderBrush="{StaticResource Accent_Gray-300}"
+                                    BorderThickness="0,0,0,1"
+                                    Command="{Binding TeacherSelectCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                    CommandParameter="{Binding}"
+                                    FocusVisualStyle="{x:Null}">
+
+                                <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=ActualWidth}"
+                                      Height="60">
+
+                                    <Border Width="3"
+                                            HorizontalAlignment="Right"
+                                            Background="DodgerBlue"
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                    <Grid Margin="20,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Panel.ZIndex="2">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <!-- Status Indicator -->
+                                            <ColumnDefinition Width="Auto" />
+                                            <!-- Name -->
+                                            <ColumnDefinition Width="*" />
+                                            <!-- Selected Indicator -->
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <!-- Active Indicator -->
+                                        <Border Grid.Row="0"
+                                                Grid.Column="0"
+                                                Width="10"
+                                                Height="10"
+                                                Margin="10,1,10,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Background="{Binding IsActiveTeacher, FallbackValue={StaticResource Accent_Red}, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}ForestGreen;Tomato}"
+                                                CornerRadius="10" />
+
+                                        <!-- Name -->
+                                        <TextBlock Grid.Row="0"
+                                                   Grid.Column="1"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="{StaticResource FontSizeRegular}"
+                                                   Text="{Binding Teacher.Name, FallbackValue=Administrator}"
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <!-- ID and Permission -->
+                                        <TextBlock Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="{StaticResource FontSizeSmall}"
+                                                   Opacity=".7"
+                                                   TextTrimming="CharacterEllipsis">
+
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0:00000} - {1}">
+                                                    <Binding FallbackValue="1"
+                                                             Path="Teacher.Teacher_ID" />
+                                                    <Binding FallbackValue="Super Admin"
+                                                             Path="Teacher.Permission" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+
+                                        </TextBlock>
+
+                                    </Grid>
+
+
+                                    <Border Background="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}, ConverterParameter={}LightSkyBlue;White, FallbackValue=White}"
+                                            Opacity=".4" />
+                                </Grid>
+
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="LightSkyBlue" />
+                                            </Trigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+
+        </Border>
+
+</UserControl>
