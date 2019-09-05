@@ -142,7 +142,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             if (App.TeacherSession == null)
                 return false;
 
-            bool IsSuperAdmin = CurrentTeacherData.PermissionIndex == (int)TeacherPermission.Super_Admin;
+            bool IsSuperAdmin = CurrentTeacherData.Permission == (int)TeacherPermission.Super_Admin;
 
             bool IsCurrentSessionHasSuperAdmin = App.TeacherSession.Permission.Equals("Super Admin");
 

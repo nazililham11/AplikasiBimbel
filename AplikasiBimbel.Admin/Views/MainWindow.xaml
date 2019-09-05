@@ -9,7 +9,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:AplikasiBimbel.Admin.ViewModel"
         Title="MainWindow"
-        MinWidth="1100"
+        MinWidth="900"
         MinHeight="550"
         WindowState="Maximized"
         mc:Ignorable="d">

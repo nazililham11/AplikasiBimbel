@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace AplikasiBimbel.Converters
 {
-    public class BooleanToVisibilityConverter : IValueConverter
+	public class BooleanToVisibilityConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
