@@ -1,10 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using AplikasiBimbel.Controller;
+using AplikasiBimbel.Model;
 using AplikasiBimbel.ViewModel;
 
 namespace AplikasiBimbel.Admin.Views.Dashboard
 {
+
     /// <summary>
     /// Interaction logic for TeacherDataView.xaml
     /// </summary>
@@ -13,35 +17,34 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         #region Private Member
 
         private TeacherViewDataViewModel _currentTeacherData;
-        private bool _isEditMode;
+        private OpenEditControlArgs _args;
+        private TeacherController _teacherDatabase;
 
         #endregion
 
         #region Constructor
 
-        public TeacherDataView()
+        public TeacherDataView(OpenEditControlArgs args)
         {
+
             InitializeComponent();
 
             //Set the Data Context
             this.DataContext = this;
 
+            _teacherDatabase = new TeacherController();
+
+            this._args = args;
+
+            if (args == OpenEditControlArgs.Add)
+                PrepareNewTeacher();
 
         }
 
         #endregion
-        
+
 
         #region Properties
-
-        public bool IsEditMode {
-            get { return _isEditMode; }
-            set {
-                _isEditMode = value;
-
-                OnPropertyChanged(nameof(IsEditMode));
-            }
-        }
 
         public TeacherViewDataViewModel CurrentTeacherData {
             get {
@@ -53,8 +56,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             set {
                 if (_currentTeacherData == value)
                     return;
-
-                IsEditMode = false;
 
                 _currentTeacherData = value;
 
@@ -81,8 +82,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         private void TeacherSaveChanges_Execute(object param)
         {
             MessageBox.Show("Save Changes Successfull", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            IsEditMode = false;
         }
 
         private bool TeacherSaveChanges_CanExecute(object param)
@@ -92,6 +91,50 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         #endregion
 
+        #region Method
+
+        private void PrepareNewTeacher()
+        {
+
+            int newID = _teacherDatabase.GenerateNewID();
+
+            if (newID < 1)
+                return;
+            
+            TeacherModel teacher = new TeacherModel
+            {
+                Teacher_ID = newID,
+                Username = string.Empty,
+                Password = string.Empty,
+                Name = string.Empty,
+                Address = string.Empty,
+                PhoneNumber = string.Empty,
+                Permission = "Teacher",
+                Status = "Aktif",
+                DateIn = DateTime.Now,
+                DateOut = null
+            };
+
+            CurrentTeacherData = new TeacherViewDataViewModel(teacher);
+
+        }
+
+        private bool ResetPassword()
+        {
+            if (CurrentTeacherData.Teacher_ID < 1)
+                return false;
+
+            TeacherModel teacher = _teacherDatabase.Find(CurrentTeacherData.Teacher_ID);
+
+            if (teacher == null)
+                return false;
+
+            teacher.Password = null;
+
+            return _teacherDatabase.Update(teacher);
+        }
+
+        #endregion
 
         #region TeacherResetPassword Command
 
@@ -108,7 +151,10 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         private void TeacherResetPassword_Execute(object param)
         {
-            MessageBox.Show("Password Reset has been Successfully");
+            if (ResetPassword())
+                MessageBox.Show("Password Reset has been Successfully");
+            else
+                MessageBox.Show("Error occured, Reset Password failed");
         }
 
         private bool TeacherResetPassword_CanExecute(object param)
@@ -118,59 +164,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
         #endregion
 
-
-        #region TeacherEdit Command
-
-        private RelayParameterizedCommand _teacherEdit;
-
-        public RelayParameterizedCommand TeacherEdit {
-            get {
-                if (_teacherEdit == null)
-                 _teacherEdit = new RelayParameterizedCommand(TeacherEdit_Execute, TeacherEdit_CanExecute);
-
-                return _teacherEdit;
-            }
-        }
-
-        private void TeacherEdit_Execute(object param)
-        {
-            IsEditMode = true;
-        }
-
-        private bool TeacherEdit_CanExecute(object param)
-        {
-            if (App.TeacherSession == null)
-                return false;
-
-            bool IsSuperAdmin = CurrentTeacherData.PermissionIndex == (int)TeacherPermission.Super_Admin;
-
-            bool IsCurrentSessionHasSuperAdmin = App.TeacherSession.Permission.Equals("Super Admin");
-
-            return !IsEditMode && (!IsSuperAdmin || IsCurrentSessionHasSuperAdmin);
-        }
-
-        #endregion
-
-
-        #region CancelEdit Command
-
-        private RelayParameterizedCommand _cancelEdit;
-
-        public RelayParameterizedCommand CancelEdit {
-            get {
-                if (_cancelEdit == null)
-                    _cancelEdit = new RelayParameterizedCommand(CancelEdit_Execute); 
-
-                return _cancelEdit;
-            }
-        }
-
-        private void CancelEdit_Execute(object param)
-        {
-            IsEditMode = false;
-        }
-
-        #endregion
 
 
         #region PropertyChanged

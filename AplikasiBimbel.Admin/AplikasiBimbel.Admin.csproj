@@ -110,6 +110,7 @@
     <Compile Include="Views\Dashboard\PackageTreeViewItemViewModel.cs" />
     <Compile Include="Views\Dashboard\Report\ReportViewModel.cs" />
     <Compile Include="Views\Dashboard\Student\StudentDataViewViewModel.cs" />
+    <Compile Include="Views\Dashboard\Teacher\OpenEditControlArgs.cs" />
     <Compile Include="Views\Dashboard\Teacher\TeacherDataView.xaml.cs">
       <DependentUpon>TeacherDataView.xaml</DependentUpon>
     </Compile>

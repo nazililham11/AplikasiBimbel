@@ -8,7 +8,6 @@ using AplikasiBimbel.Controller;
 using AplikasiBimbel.Model;
 using AplikasiBimbel.ViewModel;
 using AplikasiBimbel.Admin.ViewModel;
-using System;
 
 namespace AplikasiBimbel.Admin.Views.Dashboard
 {
@@ -19,7 +18,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
     {
         #region Private Member
 
-        private TeacherController teacherDatabase;
+        private TeacherController _teacherDatabase;
 
         private List<TeacherListItemViewModel> _originalTeacherList;
         private List<TeacherListItemViewModel> _teacherList;
@@ -28,7 +27,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         private TeacherLogView _teacherLogView;
         private string _teacherListSortLabel;
         private string _searchKeyword;
-        private bool _isFilterVisible;
 
         #endregion
 
@@ -42,7 +40,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             //Set Data Context
             this.DataContext = this;
 
-            teacherDatabase = new TeacherController();
+            _teacherDatabase = new TeacherController();
 
 
         }
@@ -56,9 +54,14 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         public TeacherDataView TeacherDataView {
             get {
                 if (_teacherDataView == null)
-                    _teacherDataView = new TeacherDataView();
+                    _teacherDataView = new TeacherDataView(OpenEditControlArgs.Edit);
 
                 return _teacherDataView;
+            }
+            set {
+                _teacherDataView = value;
+
+                OnPropertyChanged(nameof(TeacherDataView));
             }
         }
 
@@ -172,14 +175,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
         }
 
-        public bool IsFilterVisible {
-            get { return _isFilterVisible; }
-            set {
-                _isFilterVisible = value;
-
-                OnPropertyChanged(nameof(IsFilterVisible));
-            }
-        }
         #endregion
 
 
@@ -278,7 +273,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             #endregion
 
             _originalTeacherList = new List<TeacherListItemViewModel>();
-            List<TeacherModel> teachers = teacherDatabase.ReadAll();
+            List<TeacherModel> teachers = _teacherDatabase.ReadAll();
             List<TeacherListItemViewModel> teacherList = new List<TeacherListItemViewModel>();
 
             if (teachers == null)
@@ -303,7 +298,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
                 return;
 
             //Get Teacher Data From Database
-            TeacherModel teacher = teacherDatabase.Find(teacher_ID);
+            TeacherModel teacher = _teacherDatabase.Find(teacher_ID);
 
             //Check teacher value is not null
             if (teacher == null)
@@ -447,25 +442,27 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
 
 
 
-        #region FilterVisible Command
+        #region AddNewTeacher Command
 
-        private RelayCommand _FilterVisible = null;
+        private RelayCommand _addNewTeacher = null;
 
-        public RelayCommand FilterVisible {
+        public RelayCommand AddNewTeacher {
             get {
-                if (_FilterVisible == null)
-                    _FilterVisible = new RelayCommand(FilterVisible_Execute);
+                if (_addNewTeacher == null)
+                    _addNewTeacher = new RelayCommand(AddNewTeacher_Execute);
 
-                return _FilterVisible;
+                return _addNewTeacher;
             }
         }
 
-        private void FilterVisible_Execute()
+        private void AddNewTeacher_Execute()
         {
-            IsFilterVisible = !IsFilterVisible;
+            TeacherDataView = new TeacherDataView(OpenEditControlArgs.Add);
+            CurrentTeacherPanelView = TeacherDataView;
         }
 
         #endregion
+
 
 
         #region Event
@@ -478,8 +475,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
                 ReadTeacherList();
 
             Textbox_Search.Focus();
-
-            IsFilterVisible = false;
         }
 
         #endregion

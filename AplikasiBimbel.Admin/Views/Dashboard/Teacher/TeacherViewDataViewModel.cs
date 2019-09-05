@@ -49,7 +49,6 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         #endregion
 
 
-
         #region Properties
 
         public int Teacher_ID {
@@ -154,22 +153,31 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
                 if (string.IsNullOrEmpty(Permission))
                     return -1;
 
-                if (Permission.Equals("Super Admin"))
-                    return 0;
-                else if (Permission.Equals("Admin"))
-                    return 1;
-                else
-                    return 2;
+                switch (Permission)
+                {
+                    case "Super Admin":
+                        return (int)TeacherPermission.Super_Admin;
+                    case "Admin":
+                        return (int)TeacherPermission.Admin;
+                    default:
+                        return (int)TeacherPermission.Teacher;
+                }
             }
             set {
                 //Set Value to main model
-                if (value == 0)
-                    Permission = "Super Admin";
-                else if (value == 1)
-                    Permission = "Admin";
-                else if (value == 2)
-                    Permission = "Guru";
-
+                switch ((TeacherPermission)value)
+                {
+                    case TeacherPermission.Super_Admin:
+                        Permission = "Super Admin";
+                        break;
+                    case TeacherPermission.Admin:
+                        Permission = "Admin";
+                        break;
+                    default:
+                        Permission = "Teacher";
+                        break;
+                }
+                
                 //Check Is Value Changed
                 if (!_originalModel.Permission.Equals(value))
                     _isPermissionChanged = true;
@@ -236,6 +244,7 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
         
         public bool IsChanged {
             get {
+
                 if (_mainModel.Teacher_ID == 0)
                     return false;
 
@@ -263,20 +272,15 @@ namespace AplikasiBimbel.Admin.Views.Dashboard
             }
         }
 
-        public TeacherModel Teacher {
+        public bool IsAdminUsers {
             get {
-                if (_mainModel == null)
-                    _mainModel = new TeacherModel();
-
-                return _mainModel;
+                return PermissionIndex < (int)TeacherPermission.Teacher;
             }
-            set {
-                if (_mainModel == value)
-                    return;
+        }
 
-                _mainModel = value;
-
-                OnPropertyChanged(nameof(Teacher));
+        public bool IsSuperAdminUsers {
+            get {
+                return PermissionIndex == (int)TeacherPermission.Super_Admin;
             }
         }
 

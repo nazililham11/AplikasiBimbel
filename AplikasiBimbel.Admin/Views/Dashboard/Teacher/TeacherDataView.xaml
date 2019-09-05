@@ -14,6 +14,7 @@
         <!-- Converters -->
         <converter:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
 
     </UserControl.Resources>
 
@@ -22,7 +23,7 @@
 
         <ScrollViewer Focusable="False"
                       VerticalScrollBarVisibility="Auto">
-            <Grid>
+            <Grid DataContext="{Binding CurrentTeacherData}">
 
                 <Grid.ColumnDefinitions>
                     <!-- Label -->
@@ -71,7 +72,7 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- Username -->
                 <TextBlock Grid.Row="3"
@@ -86,7 +87,7 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                 <!-- Phone Number -->
@@ -102,9 +103,9 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-             
+
 
                 <!-- Address -->
                 <TextBlock Grid.Row="5"
@@ -120,9 +121,9 @@
                          Margin="0,5"
                          VerticalAlignment="Center"
                          FontSize="{StaticResource FontSizeRegular}"
-                         Text="{Binding CurrentTeacherData.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                
+
                 <!-- Access -->
                 <TextBlock Grid.Row="6"
                            Grid.Column="0"
@@ -131,30 +132,38 @@
                            FontSize="{StaticResource FontSizeRegular}"
                            Text="Access"/>
 
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="6"
+                <StackPanel Grid.Row="6"
                             Grid.Column="2"
                             Margin="0,5"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
 
-                    <RadioButton Content="Admin" IsChecked="{Binding }"/>
-                    <RadioButton Content="Teacher" />
+                    <RadioButton Margin="0,5"
+                                 Content="Admin"
+                                 FontSize="{StaticResource FontSizeRegular}"
+                                 IsChecked="{Binding IsAdminUsers, Mode=OneWay, FallbackValue=True}"
+                                 IsEnabled="{Binding IsSuperAdminUsers, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
+                    <RadioButton Margin="0,5"
+                                 Content="Teacher"
+                                 FontSize="{StaticResource FontSizeRegular}"
+                                 IsChecked="{Binding IsAdminUsers, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                                 IsEnabled="{Binding IsSuperAdminUsers, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
 
                 </StackPanel>
                 <ComboBox Grid.Row="6"
                           Grid.Column="2"
                           Margin="0,5"
                           VerticalAlignment="Center"
-                          Visibility="Collapsed"
                           FontSize="{StaticResource FontSizeRegular}"
-                          SelectedIndex="{Binding CurrentTeacherData.PermissionIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                          SelectedIndex="{Binding PermissionIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Visibility="Collapsed">
 
                     <ComboBoxItem Content="Super Admin"/>
                     <ComboBoxItem Content="Admin"/>
                     <ComboBoxItem Content="Guru"/>
                 </ComboBox>
 
-                
+
                 <!-- Status -->
                 <TextBlock Grid.Row="7"
                            Grid.Column="0"
@@ -163,27 +172,27 @@
                            FontSize="{StaticResource FontSizeRegular}"
                            Text="Status"/>
 
-                <StackPanel Orientation="Horizontal"
-                            Grid.Row="7"
+                <StackPanel Grid.Row="7"
                             Grid.Column="2"
                             Margin="0,5"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
                     <StackPanel.Resources>
                         <Storyboard x:Key="ToGreen">
-                            <ColorAnimation To="Green"
+                            <ColorAnimation FillBehavior="Stop"
                                             Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
-                                            FillBehavior="Stop"
-                                            Duration="0:0:1" />
+                                            To="Green"
+                                            Duration="0:0:1"/>
                         </Storyboard>
                     </StackPanel.Resources>
-                    <ToggleButton IsChecked="{Binding CurrentTeacherData.IsActiveTeacher}" />
-                    <TextBlock Text="{Binding CurrentTeacherData.Status, Mode=OneWay, FallbackValue=Aktif}" 
+                    <ToggleButton IsChecked="{Binding IsActiveTeacher}"/>
+                    <TextBlock Margin="10,0,0,0"
                                FontSize="{StaticResource FontSizeRegular}"
-                               Margin="10,0,0,0"/>
-                    
+                               Text="{Binding Status, Mode=OneWay, FallbackValue=Aktif}"/>
+
                 </StackPanel>
 
-               
+
 
 
                 <!-- Date Added -->
@@ -196,11 +205,11 @@
                     <TextBlock FontSize="{StaticResource FontSizeRegular}"
                                Text="Added On "/>
                     <TextBlock FontSize="{StaticResource FontSizeRegular}"
-                               Text="{Binding CurrentTeacherData.DateIn}"/>
+                               Text="{Binding DateIn}"/>
                     <TextBlock FontSize="{StaticResource FontSizeRegular}"
                                Text=" And Active Until "/>
                     <TextBlock FontSize="{StaticResource FontSizeRegular}"
-                               Text="{Binding CurrentTeacherData.DateOut}"/>
+                               Text="{Binding DateOut}"/>
                 </WrapPanel>
 
             </Grid>
